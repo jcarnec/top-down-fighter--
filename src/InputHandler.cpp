@@ -11,11 +11,17 @@ InputHandler::InputHandler(Player player) {
     };
 
     // Example: Bind the Right arrow key to the MoveRightCommand
-    keyBindings[SDLK_LEFT] = [&player]() {
+    keyBindings[SDLK_RIGHT] = [&player]() {
         player.associateCommand(CommandFactory::createMoveRightCommand(&player));
     };
 
-    // You can add more key bindings here...
+    keyBindings[SDLK_UP] = [&player]() {
+        player.associateCommand(CommandFactory::createMoveUpCommand(&player));
+    };
+
+    keyBindings[SDLK_DOWN] = [&player]() {
+        player.associateCommand(CommandFactory::createMoveDownCommand(&player));
+    };
 }
 
 

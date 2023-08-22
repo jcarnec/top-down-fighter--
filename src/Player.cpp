@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <GL/glut.h>
 #include <cmath>
+#include "MoveCommand.h"
 
 // Player constructor...
 Player::Player(glm::vec2 position, float radius)
@@ -8,15 +9,37 @@ Player::Player(glm::vec2 position, float radius)
 
 // Player methods...
 void Player::move(glm::vec2 direction) {
-    currentState->move(this, direction);
+    // check if currentState is nullptr
+    if (currentState != nullptr) {
+        currentState->move(this, direction);
+    }
 }
 
 void Player::update() {
-    currentState->update(this);
+    // check if currentState is nullptr
+    if (currentState == nullptr) {
+        // set currentState to a new StandingState
+        currentState = new StandingState();
+    } else {
+        currentState->update(this);
+    }
 }
 
 void Player::draw() const {
-    // Drawing logic...
+    // draw a red circle the size of the player at the players position by push and pop matrix
+    glPushMatrix();
+    glTranslatef(position.x, position.y, 0.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 360; i++) {
+        float degInRad = i * M_PI / 180.0f;
+        glVertex2f(cos(degInRad) * radius, sin(degInRad) * radius);
+    }
+    glEnd();
+    glPopMatrix();
+
+
+    
 }
 
 void Player::setState(PlayerState* newState) {
@@ -58,7 +81,7 @@ void Player::setCurrentState(PlayerState* newState) {
 }
 
 void Player::associateCommand(Command* command) {
-    commandMap[command.name] = command; // Associate the command with the key
+    commandMap[command->name] = command; // Associate the command with the key
 }
 
 void Player::executeCommand(const std::string& key) {

@@ -11,8 +11,6 @@ public:
 
     InputHandler(Player player);
 
-    InputHandler(player);
-
     void handleInput();
 
     void bindKeyToCommand(SDL_Keycode key, const CommandFunction& commandFunction);

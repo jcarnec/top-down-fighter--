@@ -1,6 +1,9 @@
 #include <GL/glut.h>
 #include <cmath>
 #include <chrono> // For high-resolution timing
+#include "Player.h"
+#include "InputHandler.h"
+
 
 float moveSpeed = 0.005f;
 
@@ -10,12 +13,16 @@ const float targetFrameTime = 1.0f / static_cast<float>(targetFPS);
 
 const int RESOLUTION = 800;
 
+Player player(glm::vec2(RESOLUTION / 2, RESOLUTION / 2), 100.0f);
+InputHandler inputHandler(player);
+
 // Timing variables
 std::chrono::high_resolution_clock::time_point prevFrameTime;
 
 // Display callback
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
+    player.draw();
 
 
     glutSwapBuffers();
@@ -27,6 +34,9 @@ void update(int value) {
     std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
     float deltaTime = std::chrono::duration<float>(now - prevFrameTime).count();
     prevFrameTime = now;
+    inputHandler.handleInput();
+    player.update();
+    
 
 
     glutPostRedisplay(); // Trigger a redraw
@@ -34,6 +44,8 @@ void update(int value) {
 }
 
 int main(int argc, char** argv) {
+
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(RESOLUTION, RESOLUTION); // Set the resolution to 800 by 800
