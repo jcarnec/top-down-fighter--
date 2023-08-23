@@ -6,23 +6,14 @@
 #include <glm/glm.hpp>
 #include "State.h"
 #include <unordered_map>
+#include "Entity.h"
 
-class Player {
+class Player : public Entity {
 public:
     Player(glm::vec2 position, float size, float moveSpeed);
 
-    void update(); // Call to update player state
-    void draw() const;
-
-    // Getter and setter methods for attributes
-    glm::vec2 getPosition() const;
-    void setPosition(glm::vec2 newPosition);
-
-    float getSize() const;
-    void setSize(float newSize);
-
-    float getMoveSpeed() const;
-    void setMoveSpeed(float speed);
+    void update() override; // Call to update player state
+    void draw() const override; // Call to draw player
 
     void associateInput(std::string commandName);
 
@@ -35,9 +26,6 @@ public:
 
 
 private:
-    glm::vec2 position;
-    float size;
-    float moveSpeed;
     // Set of input commands
     std::vector<std::string> inputList;
     StateMachine stateMachine;
