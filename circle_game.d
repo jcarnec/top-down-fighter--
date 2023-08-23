@@ -1,2 +1,2 @@
-obj/circle_game.o: src/circle_game.cpp src/Player.h src/PlayerState.h \
- src/Command.h src/InputHandler.h
+obj/circle_game.o: src/circle_game.cpp src/Player.h src/StateMachine.h \
+ src/State.h src/InputHandler.h src/InputFactory.h src/RegisteredInput.h

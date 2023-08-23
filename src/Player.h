@@ -1,20 +1,18 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
+#include <vector>
+#include <string>
 
+#include "StateMachine.h"
 #include <glm/glm.hpp>
-#include "PlayerState.h"
-#include "Command.h"
+#include "State.h"
 #include <unordered_map>
 
 class Player {
 public:
     Player(glm::vec2 position, float radius);
 
-    void move(glm::vec2 direction);
     void update(); // Call to update player state
     void draw() const;
-
-    void setState(PlayerState* newState);
 
     // Getter and setter methods for attributes
     glm::vec2 getPosition() const;
@@ -26,25 +24,24 @@ public:
     float getMoveSpeed() const;
     void setMoveSpeed(float speed);
 
-    PlayerState* getCurrentState() const;
-    void setCurrentState(PlayerState* newState);
+    void associateInput(std::string commandName);
 
-    // Add a method to associate a command with a key
-    void associateCommand(Command* command);
-
-    // Execute a command associated with a key
-    void executeCommand(const std::string& key);
+    StateMachine getStateMachine();
 
 
 public: 
     // Other public methods or members as needed
-    std::unordered_map<std::string, Command*> commandMap; // Use an unordered_map to store commands
+    std::unordered_map<std::string, unsigned char> inputMap;
+
 
 private:
     glm::vec2 position;
     float radius;
     float moveSpeed;
-    PlayerState* currentState;
+    // Set of input commands
+    std::vector<std::string> inputList;
+    StateMachine stateMachine;
+    
+
 };
 
-#endif // PLAYER_H

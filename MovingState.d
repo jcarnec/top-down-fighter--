@@ -1,2 +1,2 @@
-obj/MovingState.o: src/MovingState.cpp src/PlayerState.h src/Player.h \
- src/Command.h
+obj/MovingState.o: src/MovingState.cpp src/State.h src/Player.h \
+ src/StateMachine.h

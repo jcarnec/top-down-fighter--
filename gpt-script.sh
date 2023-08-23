@@ -1,22 +1,40 @@
 #!/bin/bash
 
-# Get the list of .h files in the directory
-header_files=$(ls *.h)
+# Function to concatenate files
+concatenate_files() {
+  for file in "$1"/*.h; do
+    filename=$(basename "$file")
+    echo "/* === $filename === */"
+    cat "$file"
+    echo -e "\n/* === End of $filename === */\n"
+  done
+}
 
-# Loop through each header file
-echo "These are the header files of my project so far" > temp.txt
-for file in $header_files; do
-    # Print the filename at the top and then cat the contents
-    echo "/* Filename: $file */" > temp.txt
-    cat "$file" >> temp.txt
-    echo "" >> temp.txt
-done
+# Main script
+main() {
+  if [ $# -ne 1 ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+  fi
 
-# Combine all contents into a single file
-cat temp.txt | xclip -selection clipboard
+  directory="$1"
 
-# Clean up temporary file
-rm temp.txt
+  if [ ! -d "$directory" ]; then
+    echo "Error: Directory '$directory' does not exist."
+    exit 1
+  fi
 
-echo "Header files concatenated and copied to clipboard."
+  concatenated_content=$(concatenate_files "$directory")
 
+  # Check if xclip is installed
+  if command -v xclip >/dev/null 2>&1; then
+    echo -n "$concatenated_content" | xclip -selection clipboard
+    echo "Concatenated content copied to clipboard."
+  else
+    echo "Error: 'xclip' is not installed. You can install it using your package manager."
+    exit 1
+  fi
+}
+
+# Run the script
+main "$@"

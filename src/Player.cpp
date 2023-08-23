@@ -1,50 +1,53 @@
 #include "Player.h"
 #include <GL/glut.h>
 #include <cmath>
-#include "MoveCommand.h"
+// #include <memory> // Make sure to include this header for std::make_unique
+
 
 // Player constructor...
 Player::Player(glm::vec2 position, float radius)
-    : position(position), radius(radius), moveSpeed(0.005f), currentState(nullptr) {}
+    : position(position), radius(radius), moveSpeed(0.5f) {
+   // Associate commands with keys in the inputMap
+
+        inputMap["UP"] = 'w';
+        inputMap["LEFT"] = 'a';
+        inputMap["DOWN"] = 's';
+        inputMap["RIGHT"] = 'd';
+
+
+        // Register states with the state machine
+        stateMachine.registerState("Standing", std::make_unique<StandingState>(this));
+        stateMachine.registerState("Moving", std::make_unique<StandingState>(this));
+        
+        // Set the current player for the state machine
+        stateMachine.setCurrentPlayer(this);
+        
+        // Initial state
+        stateMachine.changeState("Standing");
+
+
+    }
 
 // Player methods...
-void Player::move(glm::vec2 direction) {
-    // check if currentState is nullptr
-    if (currentState != nullptr) {
-        currentState->move(this, direction);
-    }
-}
 
 void Player::update() {
     // check if currentState is nullptr
-    if (currentState == nullptr) {
-        // set currentState to a new StandingState
-        currentState = new StandingState();
-    } else {
-        currentState->update(this);
-    }
+    stateMachine.update();
+        
 }
 
 void Player::draw() const {
-    // draw a red circle the size of the player at the players position by push and pop matrix
+    // TODO draw the player as a circle
     glPushMatrix();
     glTranslatef(position.x, position.y, 0.0f);
-    glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
-        float degInRad = i * M_PI / 180.0f;
+        float degInRad = i * M_PI / 180;
         glVertex2f(cos(degInRad) * radius, sin(degInRad) * radius);
     }
     glEnd();
     glPopMatrix();
-
-
     
-}
-
-void Player::setState(PlayerState* newState) {
-    delete currentState; // Clean up previous state
-    currentState = newState;
 }
 
 // Getter and setter methods implementation
@@ -72,21 +75,12 @@ void Player::setMoveSpeed(float speed) {
     moveSpeed = speed;
 }
 
-PlayerState* Player::getCurrentState() const {
-    return currentState;
+void Player::associateInput(std::string commandName) {
+    
+    // add to command list
+    inputList.push_back(commandName);
 }
 
-void Player::setCurrentState(PlayerState* newState) {
-    setState(newState);
-}
-
-void Player::associateCommand(Command* command) {
-    commandMap[command->name] = command; // Associate the command with the key
-}
-
-void Player::executeCommand(const std::string& key) {
-    auto it = commandMap.find(key);
-    if (it != commandMap.end()) {
-        it->second->execute(); // Execute the command associated with the key
-    }
+StateMachine Player::getStateMachine() {
+    return stateMachine;
 }

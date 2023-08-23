@@ -1,24 +1,19 @@
 #pragma once
 
-#include <functional>
-#include <unordered_map>
-#include <SDL2/SDL.h> // Assuming you're using SDL for input handling
+#include <GL/glut.h>
+#include "InputFactory.h"
 #include "Player.h"
+#include <unordered_map>
+#include <functional>
 
 class InputHandler {
 public:
-    using CommandFunction = std::function<void()>;
+    InputHandler(Player* player);
 
-    InputHandler(Player player);
-
-    void handleInput();
-
-    void bindKeyToCommand(SDL_Keycode key, const CommandFunction& commandFunction);
+    void keyboard(unsigned char key, int x, int y);
 
 private:
-    std::unordered_map<SDL_Keycode, CommandFunction> keyBindings;
-    // player
-    
-
-
+    Player* player;
+    std::unordered_map<unsigned char, RegisteredInput*> keyBindings;
 };
+

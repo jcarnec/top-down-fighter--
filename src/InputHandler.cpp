@@ -1,42 +1,22 @@
+/* === InputHandler.cpp === */
 #include "InputHandler.h"
-#include "CommandFactory.h"
-#include "Player.h"
 
-InputHandler::InputHandler(Player player) {
-    // Initialize keyBindings as needed
-
-    // Example: Bind the Left arrow key to the MoveLeftCommand
-    keyBindings[SDLK_LEFT] = [&player]() {
-        player.associateCommand(CommandFactory::createMoveLeftCommand(&player));
-    };
-
-    // Example: Bind the Right arrow key to the MoveRightCommand
-    keyBindings[SDLK_RIGHT] = [&player]() {
-        player.associateCommand(CommandFactory::createMoveRightCommand(&player));
-    };
-
-    keyBindings[SDLK_UP] = [&player]() {
-        player.associateCommand(CommandFactory::createMoveUpCommand(&player));
-    };
-
-    keyBindings[SDLK_DOWN] = [&player]() {
-        player.associateCommand(CommandFactory::createMoveDownCommand(&player));
-    };
+InputHandler::InputHandler(Player* player) : player(player) {
+    // Create command bindings using the InputFactory
+    keyBindings[player->inputMap["LEFT"]] = InputFactory::createMoveLeftInput(player);
+    keyBindings[player->inputMap["RIGHT"]] = InputFactory::createMoveRightInput(player);
+    keyBindings[player->inputMap["UP"]] = InputFactory::createMoveUpInput(player);
+    keyBindings[player->inputMap["DOWN"]] = InputFactory::createMoveDownInput(player);
 }
 
-
-void InputHandler::handleInput() {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_KEYDOWN) {
-            const auto it = keyBindings.find(event.key.keysym.sym);
-            if (it != keyBindings.end()) {
-                it->second();
-            }
+void InputHandler::keyboard(unsigned char key, int x, int y) {
+    auto it = keyBindings.find(key);
+    if (it != keyBindings.end()) {
+        RegisteredInput* command = it->second;
+        if (command) {
+            command->registerInput();
         }
     }
 }
 
-void InputHandler::bindKeyToCommand(SDL_Keycode key, const CommandFunction& commandFunction) {
-    keyBindings[key] = commandFunction;
-}
+/* === End of InputHandler.cpp === */
