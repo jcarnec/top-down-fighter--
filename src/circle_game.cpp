@@ -14,7 +14,7 @@ const float targetFrameTime = 1.0f / static_cast<float>(targetFPS);
 
 const int RESOLUTION = 800;
 
-Player player(glm::vec2(RESOLUTION / 2, RESOLUTION / 2), 100.0f, 50.0f);
+Player player(glm::vec2(RESOLUTION / 2, RESOLUTION / 2), 50.0f, 50.0f);
 InputHandler inputHandler(&player);
 
 // Timing variables

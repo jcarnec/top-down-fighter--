@@ -7,8 +7,9 @@
 #include "State.h"
 #include <unordered_map>
 #include "Entity.h"
+#include "StateMachineEntity.h"
 
-class Player : public Entity {
+class Player : public StateMachineEntity {
 public:
     Player(glm::vec2 position, float size, float moveSpeed);
 
@@ -17,8 +18,15 @@ public:
 
     void associateInput(std::string commandName);
 
-    StateMachine getStateMachine();
+    // getter and setter input list
+    std::vector<std::string> getInputList();
+    void setInputList(std::vector<std::string> inputList);
 
+    // getter state machine
+    StateMachine& getStateMachine();
+
+    // clear input list
+    void clearInputList();
 
 public: 
     // Other public methods or members as needed
@@ -28,7 +36,6 @@ public:
 private:
     // Set of input commands
     std::vector<std::string> inputList;
-    StateMachine stateMachine;
     
 
 };

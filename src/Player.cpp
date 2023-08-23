@@ -6,7 +6,7 @@
 
 // Player constructor...
 Player::Player(glm::vec2 position, float size, float moveSpeed)
-    : Entity(position, size, moveSpeed) {
+    : StateMachineEntity(position, size, moveSpeed) {
    // Associate commands with keys in the inputMap
 
         inputMap["UP"] = 'w';
@@ -16,14 +16,14 @@ Player::Player(glm::vec2 position, float size, float moveSpeed)
 
 
         // Register states with the state machine
-        stateMachine.registerState("Standing", std::make_unique<StandingState>(this));
-        stateMachine.registerState("Moving", std::make_unique<StandingState>(this));
+        stateMachine.registerState("STANDING", std::make_unique<StandingState>(this, "STANDING"));
+        stateMachine.registerState("MOVING", std::make_unique<MovingState>(this, "MOVING"));
         
         // Set the current player for the state machine
         stateMachine.setCurrentPlayer(this);
         
         // Initial state
-        stateMachine.changeState("Standing");
+        stateMachine.changeState("STANDING", "INITIAL");
 
 
     }
@@ -56,6 +56,20 @@ void Player::associateInput(std::string commandName) {
     inputList.push_back(commandName);
 }
 
-StateMachine Player::getStateMachine() {
+// get for state machine
+StateMachine& Player::getStateMachine() {
     return stateMachine;
+}
+
+// getter and setter input list
+std::vector<std::string> Player::getInputList() {
+    return inputList;
+}
+
+void Player::setInputList(std::vector<std::string> inputList) {
+    this->inputList = inputList;
+}
+
+void Player::clearInputList() {
+    inputList.clear();
 }
