@@ -9,7 +9,7 @@
 
 class Player {
 public:
-    Player(glm::vec2 position, float radius);
+    Player(glm::vec2 position, float size, float moveSpeed);
 
     void update(); // Call to update player state
     void draw() const;
@@ -18,8 +18,8 @@ public:
     glm::vec2 getPosition() const;
     void setPosition(glm::vec2 newPosition);
 
-    float getRadius() const;
-    void setRadius(float newRadius);
+    float getSize() const;
+    void setSize(float newSize);
 
     float getMoveSpeed() const;
     void setMoveSpeed(float speed);
@@ -36,7 +36,7 @@ public:
 
 private:
     glm::vec2 position;
-    float radius;
+    float size;
     float moveSpeed;
     // Set of input commands
     std::vector<std::string> inputList;

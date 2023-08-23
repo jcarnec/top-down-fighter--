@@ -5,8 +5,8 @@
 
 
 // Player constructor...
-Player::Player(glm::vec2 position, float radius)
-    : position(position), radius(radius), moveSpeed(0.5f) {
+Player::Player(glm::vec2 position, float size, float moveSpeed)
+    : position(position), size(size), moveSpeed(moveSpeed) {
    // Associate commands with keys in the inputMap
 
         inputMap["UP"] = 'w';
@@ -43,7 +43,7 @@ void Player::draw() const {
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         float degInRad = i * M_PI / 180;
-        glVertex2f(cos(degInRad) * radius, sin(degInRad) * radius);
+        glVertex2f(cos(degInRad) * size, sin(degInRad) * size);
     }
     glEnd();
     glPopMatrix();
@@ -59,12 +59,12 @@ void Player::setPosition(glm::vec2 newPosition) {
     position = newPosition;
 }
 
-float Player::getRadius() const {
-    return radius;
+float Player::getSize() const {
+    return size;
 }
 
-void Player::setRadius(float newRadius) {
-    radius = newRadius;
+void Player::setSize(float newRadius) {
+    size = newRadius;
 }
 
 float Player::getMoveSpeed() const {
