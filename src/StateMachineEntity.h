@@ -11,7 +11,7 @@
 
 class StateMachineEntity : public Entity {
 public:
-    StateMachineEntity(glm::vec2 position, float size, float moveSpeed);
+    StateMachineEntity(glm::vec2 position, float size);
 
     virtual void update() = 0; // Call to update player state
     virtual void draw() const = 0; // Call to draw player

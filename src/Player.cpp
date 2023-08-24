@@ -5,8 +5,8 @@
 
 
 // Player constructor...
-Player::Player(glm::vec2 position, float size, float moveSpeed)
-    : StateMachineEntity(position, size, moveSpeed) {
+Player::Player(glm::vec2 position, float size)
+    : StateMachineEntity(position, size) {
    // Associate commands with keys in the inputMap
 
         inputMap["UP"] = 'w';

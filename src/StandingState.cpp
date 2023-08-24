@@ -22,6 +22,15 @@ void StandingState::handleInput() {
     // Analyze inputList and perform state transitions accordingly
     if (std::find(inputList.begin(), inputList.end(), "UP") != inputList.end()) {
         player->getStateMachine().applyCommand("MOVE_UP");
+    } 
+    if (std::find(inputList.begin(), inputList.end(), "DOWN") != inputList.end()) {
+        player->getStateMachine().applyCommand("MOVE_DOWN");
+    }
+    if (std::find(inputList.begin(), inputList.end(), "LEFT") != inputList.end()) {
+        player->getStateMachine().applyCommand("MOVE_LEFT");
+    }
+    if (std::find(inputList.begin(), inputList.end(), "RIGHT") != inputList.end()) {
+        player->getStateMachine().applyCommand("MOVE_RIGHT");
     }
 }
 
@@ -29,6 +38,15 @@ void StandingState::onCommand(std::string command) {
     if (command == "MOVE_UP") {
         player->getStateMachine().changeState("MOVING", command);
     }
+    if (command == "MOVE_DOWN") {
+        player->getStateMachine().changeState("MOVING", command);
+    }
+    if (command == "MOVE_LEFT") {
+        player->getStateMachine().changeState("MOVING", command);
+    }
+    if (command == "MOVE_RIGHT") {
+        player->getStateMachine().changeState("MOVING", command);
+    }    
 }
 
 void StandingState::clearInputList() {

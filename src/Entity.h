@@ -9,7 +9,7 @@
 
 class Entity {
 public:
-    Entity(glm::vec2 position, float size, float moveSpeed);
+    Entity(glm::vec2 position, float size);
     virtual ~Entity() = default;
 
     virtual void update() = 0;
@@ -52,7 +52,21 @@ public:
     };
 
     void applyFriction() {
-        acceleration -= friction;
+
+        // reduce velocity by friction in opposite direction of velocity by a fixed amount
+        if (glm::length(velocity) > 0.0f) {
+            glm::vec2 frictionDirection = glm::normalize(velocity) * -1.0f;
+            glm::vec2 frictionVector = frictionDirection * friction;
+            // if frictionVector is greater than velocity, then set velocity to 0
+            if (glm::length(frictionVector) > glm::length(velocity)) {
+                velocity = glm::vec2(0.0f);
+            } else {
+                velocity += frictionVector;
+            }
+            // make sure it does not overshoot
+
+        }
+        
     };
 
     void applyAcceleration() {
@@ -78,10 +92,11 @@ public:
         }
     };
 
-    void applyMovement() {
-        applyFriction();
+    void applyPhysics() {
         applyAcceleration();
+        applyFriction();
         applyMaxSpeed();
+        applyVelocity();
     };
 
     // getter and setter methods for direction
@@ -102,8 +117,8 @@ protected:
     glm::vec2 velocity = glm::vec2(0.0f);
     glm::vec2 acceleration = glm::vec2(0.0f);
     glm::vec2 direction = glm::vec2(0.0f);
-    float friction;
+    float friction = 0.1f;
     float size;
-    float moveSpeed;
-    float maxSpeed = 100.0f;
+    float moveSpeed = 10.0f;
+    float maxSpeed = 10.0f;
 };
