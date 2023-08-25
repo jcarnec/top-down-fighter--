@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <GL/glut.h>
 #include <cmath>
+#include <iostream>
 // #include <memory> // Make sure to include this header for std::make_unique
 
 
@@ -37,37 +38,38 @@ void Player::update() {
 }
 
 void Player::draw() const {
-    // TODO draw the player as a circle
+
     glPushMatrix();
-    glTranslatef(position.x, position.y, 0.0f);
+    glColor3f(0.0f, 1.0f, 0.0f); // Set line color to red
+    glTranslatef(getPhysics().getPosition().x, getPhysics().getPosition().y, 0.0f);
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         float degInRad = i * M_PI / 180;
         glVertex2f(cos(degInRad) * size, sin(degInRad) * size);
     }
     glEnd();
+
+    // draw a separate line to show the direction the player is moving
+    glm::vec2 velocity = getPhysics().getVelocity();
+    glm::vec2 normalizedVelocity = glm::normalize(velocity);
+    glm::vec2 direction = normalizedVelocity * size;
+
+    // draw the line
+    glBegin(GL_LINES);
+    glColor3f(1.0f, 0.0f, 0.0f); // Set line color to red
+    glVertex2f(0.0f, 0.0f); // Starting point of the line (center of the player)
+    glVertex2f(direction.x, direction.y); // Ending point of the line
+    glEnd();
+
     glPopMatrix();
-    
+
 }
 
 void Player::associateInput(std::string commandName) {
     
+
     // add to command list
     inputList.push_back(commandName);
-}
-
-// get for state machine
-StateMachine& Player::getStateMachine() {
-    return stateMachine;
-}
-
-// getter and setter input list
-std::vector<std::string> Player::getInputList() {
-    return inputList;
-}
-
-void Player::setInputList(std::vector<std::string> inputList) {
-    this->inputList = inputList;
 }
 
 void Player::clearInputList() {

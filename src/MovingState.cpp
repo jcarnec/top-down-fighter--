@@ -6,37 +6,17 @@
 
 void MovingState::update() {
     // Update logic for moving state
-    player->applyPhysics();
-    player->setAcceleration(glm::vec2(0.0f, 0.0f));
+    player->getPhysics().applyPhysics();
+    player->getPhysics().setAcceleration(glm::vec2(0.0f, 0.0f));
 }
 
 // Inside MovingState implementation
 void MovingState::enter(std::string command) {
     // Perform any setup tasks when entering the StandingState
     // if command is MOVE_UP, then accelerate player upwards
-    glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
-    if (command == "MOVE_UP") {
-        directionOfMovement = glm::vec2(0.0f, 1.0f);
-    } else if (command == "MOVE_DOWN") {
-        directionOfMovement = glm::vec2(0.0f, -1.0f);
-    } else if (command == "MOVE_LEFT") {
-        directionOfMovement = glm::vec2(-1.0f, 0.0f);
-    } else if (command == "MOVE_RIGHT") {
-        directionOfMovement = glm::vec2(1.0f, 0.0f);
+    if (command == "MOVE_UP" || command == "MOVE_DOWN" || command == "MOVE_LEFT" || command == "MOVE_RIGHT") {
+        onCommand(command);
     }
-
-    player->setAcceleration(directionOfMovement * player->getMoveSpeed());
-
-    // log all physics values to console
-    std::cout << "==== Start of frame =======" << std::endl;
-    std::cout << "Acceleration: " << player->getAcceleration().x << ", " << player->getAcceleration().y << std::endl;
-    std::cout << "Velocity: " << player->getVelocity().x << ", " << player->getVelocity().y << std::endl;
-    std::cout << "Position: " << player->getPosition().x << ", " << player->getPosition().y << std::endl;
-    std::cout << "Friction: " << player->getFriction() << std::endl;
-    std::cout << "Move Speed: " << player->getMoveSpeed() << std::endl;
-    std::cout << "==== Start of frame =======" << std::endl;
-
-
 }
 
 void MovingState::exit() {
@@ -64,18 +44,27 @@ void MovingState::handleInput() {
 }
 
 void MovingState::onCommand(std::string command) {
+    glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
     if (command == "MOVE_UP") {
-        player->getStateMachine().changeState("MOVING", command);
+        directionOfMovement = glm::vec2(0.0f, 1.0f);
+    } else if (command == "MOVE_DOWN") {
+        directionOfMovement = glm::vec2(0.0f, -1.0f);
+    } else if (command == "MOVE_LEFT") {
+        directionOfMovement = glm::vec2(-1.0f, 0.0f);
+    } else if (command == "MOVE_RIGHT") {
+        directionOfMovement = glm::vec2(1.0f, 0.0f);
     }
-    if (command == "MOVE_DOWN") {
-        player->getStateMachine().changeState("MOVING", command);
-    }
-    if (command == "MOVE_LEFT") {
-        player->getStateMachine().changeState("MOVING", command);
-    }
-    if (command == "MOVE_RIGHT") {
-        player->getStateMachine().changeState("MOVING", command);
-    }
+
+    player->getPhysics().setAcceleration(directionOfMovement * player->getPhysics().getMoveAcceleration());
+
+    // // log all physics values to console
+    // std::cout << "==== Start of frame =======" << std::endl;
+    // std::cout << "Acceleration: " << player->getPhysics().getAcceleration().x << ", " << player->getPhysics().getAcceleration().y << std::endl;
+    // std::cout << "Velocity: " << player->getPhysics().getVelocity().x << ", " << player->getPhysics().getVelocity().y << std::endl;
+    // std::cout << "Position: " << player->getPhysics().getPosition().x << ", " << player->getPhysics().getPosition().y << std::endl;
+    // std::cout << "Friction: " << player->getPhysics().getFriction() << std::endl;
+    // std::cout << "Move Speed: " << player->getPhysics().getMoveAcceleration() << std::endl;
+    // std::cout << "==== Start of frame =======" << std::endl;
 }
 
 void MovingState::clearInputList() {

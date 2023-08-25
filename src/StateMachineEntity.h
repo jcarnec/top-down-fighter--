@@ -11,15 +11,12 @@
 
 class StateMachineEntity : public Entity {
 public:
-    StateMachineEntity(glm::vec2 position, float size);
+    StateMachineEntity(glm::vec2 position, float size) : Entity(position, size) {};
 
     virtual void update() = 0; // Call to update player state
     virtual void draw() const = 0; // Call to draw player
 
-    StateMachine& getStateMachine();
-
-
-public: 
+    StateMachine& getStateMachine() { return stateMachine; };
 
 protected:
     StateMachine stateMachine;

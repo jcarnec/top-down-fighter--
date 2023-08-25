@@ -6,7 +6,7 @@
 
 
 
-float moveSpeed = 0.005f;
+float moveAcceleration = 0.005f;
 
 // Frame rate control
 const int targetFPS = 60;
@@ -21,8 +21,12 @@ InputHandler inputHandler(&player);
 std::chrono::high_resolution_clock::time_point prevFrameTime;
 
 // Keyboard callback
-void keyboard(unsigned char key, int x, int y) {
-    inputHandler.keyboard(key, x, y);
+void keyboardUp(unsigned char key, int x, int y) {
+    inputHandler.keyboardUp(key, x, y);
+}
+
+void keyboardDown(unsigned char key, int x, int y) {
+    inputHandler.keyboardDown(key, x, y);
 }
 
 // Display callback
@@ -47,6 +51,9 @@ void update(int value) {
     std::chrono::high_resolution_clock::time_point now = std::chrono::high_resolution_clock::now();
     float deltaTime = std::chrono::duration<float>(now - prevFrameTime).count();
     prevFrameTime = now;
+
+    inputHandler.update();
+
     player.update();
     glutPostRedisplay(); // Trigger a redraw
     glutTimerFunc(static_cast<unsigned int>(targetFrameTime * 1000), update, 0); // Call update after targetFrameTime in milliseconds
@@ -62,7 +69,8 @@ int main(int argc, char** argv) {
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    glutKeyboardFunc(keyboard);
+    glutKeyboardUpFunc(keyboardUp);
+    glutKeyboardFunc(keyboardDown);
     glutDisplayFunc(display);
     prevFrameTime = std::chrono::high_resolution_clock::now(); // Initialize prevFrameTime
     glutTimerFunc(0, update, 0);

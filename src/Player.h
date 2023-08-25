@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
-
+#include <memory>
+#include "BasicPhysicsComponent.h"
 #include "StateMachine.h"
 #include <glm/glm.hpp>
 #include "State.h"
@@ -19,23 +20,20 @@ public:
     void associateInput(std::string commandName);
 
     // getter and setter input list
-    std::vector<std::string> getInputList();
-    void setInputList(std::vector<std::string> inputList);
-
-    // getter state machine
-    StateMachine& getStateMachine();
+    std::vector<std::string> getInputList() { return inputList;}
+    void setInputList(std::vector<std::string> inputList) { this->inputList = inputList; }
 
     // clear input list
     void clearInputList();
 
-public: 
-    // Other public methods or members as needed
+public:
     std::unordered_map<std::string, unsigned char> inputMap;
 
 
 private:
     // Set of input commands
     std::vector<std::string> inputList;
+
     
 
 };
