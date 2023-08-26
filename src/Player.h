@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include "Entity.h"
 #include "StateMachineEntity.h"
+#include "InputHandler.h"
+
 
 class Player : public StateMachineEntity {
 public:
@@ -17,22 +19,13 @@ public:
     void update() override; // Call to update player state
     void draw() const override; // Call to draw player
 
-    void associateInput(std::string commandName);
+    InputHandler& getInputHandler() const { return *inputHandler; }
+    void setInputHandler(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
+    void setPhysics(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
 
-    // getter and setter input list
-    std::vector<std::string> getInputList() { return inputList;}
-    void setInputList(std::vector<std::string> inputList) { this->inputList = inputList; }
+protected:
+    std::unique_ptr<InputHandler> inputHandler;
 
-    // clear input list
-    void clearInputList();
-
-public:
-    std::unordered_map<std::string, unsigned char> inputMap;
-
-
-private:
-    // Set of input commands
-    std::vector<std::string> inputList;
 
     
 

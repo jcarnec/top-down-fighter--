@@ -14,7 +14,7 @@ public:
     StateMachineEntity(glm::vec2 position, float size) : Entity(position, size) {};
 
     virtual void update() = 0; // Call to update player state
-    virtual void draw() const = 0; // Call to draw player
+    virtual void draw() const = 0;
 
     StateMachine& getStateMachine() { return stateMachine; };
 

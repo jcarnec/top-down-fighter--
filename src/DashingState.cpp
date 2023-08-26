@@ -4,27 +4,36 @@
 #include <iostream>
 
 
-void MovingState::update() {
+void DashingState::update() {
     // Update logic for moving state
     player->getPhysics().applyForce(directionOfMovement * player->getPhysics().getMoveForce());
     directionOfMovement = glm::vec2(0.0f, 0.0f);
+    std::cout << "stateFrameCount: " << stateFrameCount << std::endl;
+    if(stateFrameCount >= DURATION) {
+        player->getStateMachine().changeState("STANDING", "DASH_END");
+    }
 }
 
-// Inside MovingState implementation
-void MovingState::enter(std::string command) {
+// Inside DashingState implementation
+void DashingState::enter(std::string command) {
     // Perform any setup tasks when entering the StandingState
     // if command is MOVE_UP, then accelerate player upwards
-    if (command == "MOVE_UP" || command == "MOVE_DOWN" || command == "MOVE_LEFT" || command == "MOVE_RIGHT" || command == "CROUCH" || command == "DASH") {
+    std::cout << "Entering DashingState" << std::endl;
+    // get normalized velocity vector
+    glm::vec2 normalizedVelocity = glm::normalize(player->getPhysics().getVelocity());
+    player->getPhysics().applyEForce(normalizedVelocity * dashForce);
+    if (command == "MOVE_UP" || command == "MOVE_DOWN" || command == "MOVE_LEFT" || command == "MOVE_RIGHT" || command == "CROUCH") {
         onCommand(command);
     }
 }
 
-void MovingState::exit() {
-    // Perform any cleanup tasks when exiting the MovingState
+void DashingState::exit() {
+    // Perform any cleanup tasks when exiting the DashingState
+    std::cout << "Exiting DashingState" << std::endl;
 }
 
-// Other methods specific to MovingState...
-void MovingState::handleInput() {
+// Other methods specific to DashingState...
+void DashingState::handleInput() {
     // Get inputList from player
     std::vector<std::string> inputList = player->getInputHandler().getInputList();
 
@@ -33,9 +42,6 @@ void MovingState::handleInput() {
     if (std::find(inputList.begin(), inputList.end(), "CROUCH") != inputList.end()) {
         player->getStateMachine().applyCommand("CROUCH");
     } 
-    if (std::find(inputList.begin(), inputList.end(), "DASH") != inputList.end()) {
-        player->getStateMachine().applyCommand("DASH");
-    }
     if (std::find(inputList.begin(), inputList.end(), "UP") != inputList.end()) {
         player->getStateMachine().applyCommand("MOVE_UP");
     } 
@@ -51,8 +57,10 @@ void MovingState::handleInput() {
 }
 
 
-void MovingState::onCommand(std::string command) {
-
+void DashingState::onCommand(std::string command) {
+    if (command == "CROUCH") {
+        player->getStateMachine().changeState("CROUCHING", command);
+    }
     if (command == "MOVE_UP") {
         directionOfMovement += glm::vec2(0.0f, 1.0f);
     } else if (command == "MOVE_DOWN") {
@@ -61,11 +69,8 @@ void MovingState::onCommand(std::string command) {
         directionOfMovement += glm::vec2(-1.0f, 0.0f);
     } else if (command == "MOVE_RIGHT") {
         directionOfMovement += glm::vec2(1.0f, 0.0f);
-    } else if (command == "CROUCH") {
-        player->getStateMachine().changeState("CROUCHING", command);
-    } else if (command == "DASH") {
-        player->getStateMachine().changeState("DASHING", command);
     }
+
 
     // // log all physics values to console
     // std::cout << "==== Start of frame =======" << std::endl;

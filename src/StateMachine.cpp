@@ -26,11 +26,10 @@ void StateMachine::changeState(const std::string& stateName, const std::string& 
 
 void StateMachine::update() {
     if (currentState) {
+        currentState->stateFrameCount++;
         currentState->handleInput();
         currentState->update();
-        // clear input list
-        currentState->clearInputList();
-        
+        currentState->physicsUpdate();
     }
 }
 
@@ -41,6 +40,12 @@ void StateMachine::setCurrentPlayer(Player* player) {
 void StateMachine::applyCommand(const std::string& command) {
     if (currentState) {
         currentState->onCommand(command);
+    }
+}
+
+void StateMachine::draw() const {
+    if (currentState) {
+        currentState->draw();
     }
 }
 

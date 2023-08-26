@@ -18,6 +18,7 @@ public:
     void update();
     void applyCommand(const std::string& command);
     void setCurrentPlayer(Player* player);
+    void draw() const;
 
 
 
