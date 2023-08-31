@@ -21,7 +21,9 @@ void DashingState::enter(std::string command) {
     std::cout << "Entering DashingState" << std::endl;
     // get normalized velocity vector
     glm::vec2 normalizedVelocity = glm::normalize(player->getPhysics().getVelocity());
-    player->getPhysics().applyEForce(normalizedVelocity * dashForce);
+    if(glm::length(normalizedVelocity) > 0.0f) {
+        player->getPhysics().applyEForce(normalizedVelocity * dashForce);
+    }
     if (command == "MOVE_UP" || command == "MOVE_DOWN" || command == "MOVE_LEFT" || command == "MOVE_RIGHT" || command == "CROUCH") {
         onCommand(command);
     }

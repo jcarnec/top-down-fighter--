@@ -59,7 +59,7 @@ protected:
     glm::vec2 orientation = glm::vec2(0.0f);
     float friction = 0.2f;
     float maxSpeed = 10;
-    float moveForce = 2;
+    float moveForce = 1.5;
 
 
     glm::vec2 eVelocity = glm::vec2(0.0f);

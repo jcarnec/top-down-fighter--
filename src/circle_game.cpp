@@ -17,6 +17,7 @@ int RESOLUTIONY;
 
 
 Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), 50.0f);
+Player player2(glm::vec2(800, 800), 50.0f);
 
 // Timing variables
 std::chrono::high_resolution_clock::time_point prevFrameTime;
@@ -42,6 +43,7 @@ void display() {
     glLoadIdentity();
 
     player.draw();
+    player2.draw();
 
     glutSwapBuffers();
 }
@@ -55,8 +57,8 @@ void update(int value) {
 
     player.getInputHandler().update();
     //log input list
-    player.getInputHandler().logInputList();
     player.update();
+    player2.update();
     player.getInputHandler().clearInputList();
     glutPostRedisplay(); // Trigger a redraw
     glutTimerFunc(static_cast<unsigned int>(targetFrameTime * 1000), update, 0); // Call update after targetFrameTime in milliseconds
@@ -76,7 +78,7 @@ int main(int argc, char** argv) {
     
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+    glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
     glutKeyboardUpFunc(keyboardUp);
     glutKeyboardFunc(keyboardDown);
     glutDisplayFunc(display);

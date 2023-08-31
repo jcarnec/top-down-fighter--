@@ -8,6 +8,7 @@ InputHandler::InputHandler(Player& player) : player(&player) {
 }
 
 void InputHandler::keyboardDown(unsigned char key, int x, int y) {
+    // dont allow key to be pressed if it is already down
     keyState[key] = BUTTON_DOWN;
 }
 
@@ -54,6 +55,12 @@ void InputHandler::associateInput(std::string commandName) {
 
 void InputHandler::clearInputList() {
     inputList.clear();
+    // clear keyState array except for the keys that are bound to commands
+    for (auto &binding : keyBindings) {
+        if(binding.first != inputMap["LEFT"] && binding.first != inputMap["RIGHT"] && binding.first != inputMap["UP"] && binding.first != inputMap["DOWN"] && binding.first != inputMap["CROUCH"] ) {
+            keyState[binding.first] = BUTTON_UP;
+        }
+    }
 }
 
 void InputHandler::logInputList() {
