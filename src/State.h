@@ -29,6 +29,8 @@ public:
     std::string name;
     int stateFrameCount = 0;
     const int DURATION = 0;
+    // collection of hitbox observers
+    std::vector<std::shared_ptr<HitboxObserver>> observers;
 };
 
 // Standing
@@ -84,6 +86,7 @@ public:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
     float dashForce = 100.0f;
     const int DURATION = 3;
+
 };
 
 
