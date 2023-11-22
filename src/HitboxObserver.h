@@ -7,6 +7,7 @@
 
 #include "Observer.h"
 
+class Hitbox;
 
 /**
  * @class HitboxObserver

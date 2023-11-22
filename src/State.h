@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <GL/glut.h>
 #include <cmath>
+#include "HitboxCollection.h"
 
 
 class Player; // Forward declaration of Player class
@@ -23,14 +24,20 @@ public:
     virtual void handleInput() = 0;
     virtual void onCommand(std::string command) = 0 ;
     virtual ~State() = default;
-
-public:
     Player* player;
     std::string name;
     int stateFrameCount = 0;
     const int DURATION = 0;
-    // collection of hitbox observers
-    std::vector<std::shared_ptr<HitboxObserver>> observers;
+    // a hitbox collection component unique pointer to each state
+    std::unique_ptr<HitboxCollection> hitboxCollection;
+    std::unique_ptr<HitboxCollection> getHitboxCollection() { return std::move(hitboxCollection); }
+    void setHitboxCollection(std::unique_ptr<HitboxCollection> hc) {
+        hitboxCollection = std::move(hc); 
+    }
+
+    // a hurtbox collection component unique pointer to each state
+
+
 };
 
 // Standing

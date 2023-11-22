@@ -1,3 +1,5 @@
-obj/MovingState.o: src/MovingState.cpp src/State.h src/Player.h \
- src/BasicPhysicsComponent.h src/PhysicsComponent.h src/StateMachine.h \
- src/Entity.h src/StateMachineEntity.h src/InputHandler.h
+obj/MovingState.o: src/MovingState.cpp src/State.h src/HitboxCollection.h \
+ src/Hitbox.h src/Subject.h src/HitboxObserver.h src/Observer.h \
+ src/Shape.h src/Player.h src/BasicPhysicsComponent.h \
+ src/PhysicsComponent.h src/StateMachine.h src/Entity.h \
+ src/StateMachineEntity.h src/InputHandler.h

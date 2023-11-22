@@ -19,6 +19,10 @@ public:
     void applyCommand(const std::string& command);
     void setCurrentPlayer(Player* player);
     void draw() const;
+    // get state by string
+    std::shared_ptr<State> getState(const std::string& stateName) const {
+        return states.at(stateName);
+    }
 
 
 

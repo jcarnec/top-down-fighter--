@@ -2,6 +2,7 @@
 #include <GL/glut.h>
 #include <cmath>
 #include <iostream>
+
 // #include <memory> // Make sure to include this header for std::make_unique
 
 
@@ -24,6 +25,11 @@ Player::Player(glm::vec2 position, float size)
 
         // Initialize the input handler
         inputHandler = std::make_unique<InputHandler>(*this);
+
+        auto hc = std::make_unique<HitboxCollection>();
+        hc->hitboxes.push_back(std::make_shared<Hitbox>(position, Circle(20.0f), 1, glm::vec2(0, 0)));
+        
+        stateMachine.getState("DASHING")->setHitboxCollection(std::move(hc));
 
     }
 
