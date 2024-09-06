@@ -8,7 +8,11 @@ void DashingState::update() {
     // Update logic for moving state
     player->getPhysics().applyForce(directionOfMovement * player->getPhysics().getMoveForce());
     directionOfMovement = glm::vec2(0.0f, 0.0f);
-    std::cout << "stateFrameCount: " << stateFrameCount << std::endl;
+    auto hbc = getHitboxCollection();
+    for (auto& hb : hbc->hitboxes) {
+        hb->setWorldPosition(player->getPhysics().getPosition() + hb->getPosition());
+        hb->notify();
+    }
     if(stateFrameCount >= DURATION) {
         player->getStateMachine().changeState("STANDING", "DASH_END");
     }
@@ -16,10 +20,8 @@ void DashingState::update() {
 
 // Inside DashingState implementation
 void DashingState::enter(std::string command) {
-    // Perform any setup tasks when entering the StandingState
-    // if command is MOVE_UP, then accelerate player upwards
+    createBoxes();
     std::cout << "Entering DashingState" << std::endl;
-    // get normalized velocity vector
     glm::vec2 normalizedVelocity = glm::normalize(player->getPhysics().getVelocity());
     if(glm::length(normalizedVelocity) > 0.0f) {
         player->getPhysics().applyEForce(normalizedVelocity * dashForce);
@@ -84,5 +86,33 @@ void DashingState::onCommand(std::string command) {
     // std::cout << "==== Start of frame =======" << std::endl;
 }
 
+void DashingState::createBoxes() {
+    // create hitbox observers
+    auto hoc = std::make_unique<HitboxObserverCollection>();
+    auto ho = std::make_shared<HitboxObserver>(player->getPhysics().getPosition(), Circle(20.0f), 1, glm::vec2(0, 0), player->getId());
+    hoc->hitboxObservers.push_back(ho);
+    player->getHitboxManager().addHitboxObserver(ho);
+    setHitboxObserverCollection(std::move(hoc));
 
+    // create hitboxes
+    auto hc = std::make_unique<HitboxCollection>();
+    auto hb = std::make_shared<Hitbox>(player->getPhysics().getPosition(), Circle(20.0f), 1, glm::vec2(0, 0), player->getId());
+    hc->hitboxes.push_back(hb);
+    player->getHitboxManager().addHitbox(hb);
+    setHitboxCollection(std::move(hc));
+}
+
+void DashingState::deleteBoxes() {
+    // delete hitbox observers
+    for (auto& ho : getHitboxObserverCollection()->hitboxObservers) {
+        player->getHitboxManager().removeHitboxObserver(ho);
+    }
+    setHitboxObserverCollection(nullptr);
+
+    // delete hitboxes
+    for (auto& hb : getHitboxCollection()->hitboxes) {
+        player->getHitboxManager().removeHitbox(hb);
+    }   
+    setHitboxCollection(nullptr);
+}
 

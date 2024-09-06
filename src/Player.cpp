@@ -26,10 +26,18 @@ Player::Player(glm::vec2 position, float size)
         // Initialize the input handler
         inputHandler = std::make_unique<InputHandler>(*this);
 
+        // initialize the hitbox collection
         auto hc = std::make_unique<HitboxCollection>();
-        hc->hitboxes.push_back(std::make_shared<Hitbox>(position, Circle(20.0f), 1, glm::vec2(0, 0)));
+        hc->hitboxes.push_back(std::make_shared<Hitbox>(position, Circle(20.0f), 1, glm::vec2(0, 0), this->getId()));
         
         stateMachine.getState("DASHING")->setHitboxCollection(std::move(hc));
+
+        // initialize the hitbox observer collection
+        auto hoc = std::make_unique<HitboxObserverCollection>();
+        hoc->hitboxObservers.push_back(std::make_shared<HitboxObserver>(position, Circle(20.0f), 1, glm::vec2(0, 0), this->getId()));
+
+        stateMachine.getState("STANDING")->setHitboxObserverCollection(std::move(hoc));
+        
 
     }
 

@@ -49,5 +49,9 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "iostream": "cpp"
-    }
+    },
+    "cSpell.words": [
+        "hitbox",
+        "hitboxes"
+    ]
 }

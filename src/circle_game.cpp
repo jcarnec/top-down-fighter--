@@ -3,6 +3,7 @@
 #include <chrono> // For high-resolution timing
 #include "Player.h"
 #include "InputHandler.h"
+#include "HitboxManager.h"
 
 
 
@@ -18,6 +19,10 @@ int RESOLUTIONY;
 
 Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), 50.0f);
 Player player2(glm::vec2(800, 800), 50.0f);
+
+
+HitboxManager hitboxManager;
+
 
 // Timing variables
 std::chrono::high_resolution_clock::time_point prevFrameTime;
@@ -86,6 +91,9 @@ int main(int argc, char** argv) {
     glutTimerFunc(0, update, 0);
 
     player.getInputHandler().initializeKeyBindings();
+    player.setHitboxManager(std::make_shared<HitboxManager>());
+    player2.setHitboxManager(std::make_shared<HitboxManager>());
+
     glutMainLoop();
     return 0;
 }

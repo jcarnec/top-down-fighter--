@@ -7,12 +7,14 @@ void StandingState::update() {
 }
 
 void StandingState::enter(std::string command) {
+    createBoxes();
     if (command == "MOVE_UP" || command == "MOVE_DOWN" || command == "MOVE_LEFT" || command == "MOVE_RIGHT" || command == "CROUCH" || command == "DASH") {
         onCommand(command);
     }
 }
 
 void StandingState::exit() {
+    deleteBoxes();
     // Perform any cleanup tasks when exiting the StandingState
 }
 
@@ -59,4 +61,23 @@ void StandingState::onCommand(std::string command) {
     }
 }
 
+void StandingState::createBoxes() {
+    // create hitbox observers
+    auto hoc = std::make_unique<HitboxObserverCollection>();
+    auto ho = std::make_shared<HitboxObserver>(player->getPhysics().getPosition(), Circle(20.0f), 1, glm::vec2(0, 0), player->getId());
+    hoc->hitboxObservers.push_back(ho);
+    player->getHitboxManager().addHitboxObserver(ho);
+    setHitboxObserverCollection(std::move(hoc));
+}
+
+void StandingState::deleteBoxes() {
+    // Get the hitbox observer collection
+    auto hoc = getHitboxObserverCollection();
+    // Delete hitbox observers
+    for (auto& ho : hoc->hitboxObservers) {
+        // Remove hitbox observer
+        player->getHitboxManager().removeHitboxObserver(ho);
+    }
+    setHitboxObserverCollection(nullptr);
+}
 

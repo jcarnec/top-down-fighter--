@@ -9,6 +9,7 @@
 #include <GL/glut.h>
 #include <cmath>
 #include "HitboxCollection.h"
+#include "HitboxObserverCollection.h"
 
 
 class Player; // Forward declaration of Player class
@@ -20,6 +21,8 @@ public:
     void physicsUpdate();
     virtual void update() = 0;
     virtual void enter(std::string command) = 0; // New method to handle state entry
+    virtual void createBoxes() = 0; // New method to handle state entry
+    virtual void deleteBoxes() = 0; // New method to handle state entry
     virtual void exit() = 0;  // New method to handle state exit //
     virtual void handleInput() = 0;
     virtual void onCommand(std::string command) = 0 ;
@@ -30,12 +33,16 @@ public:
     const int DURATION = 0;
     // a hitbox collection component unique pointer to each state
     std::unique_ptr<HitboxCollection> hitboxCollection;
-    std::unique_ptr<HitboxCollection> getHitboxCollection() { return std::move(hitboxCollection); }
+    HitboxCollection* getHitboxCollection() { return hitboxCollection.get(); }
     void setHitboxCollection(std::unique_ptr<HitboxCollection> hc) {
         hitboxCollection = std::move(hc); 
     }
 
     // a hurtbox collection component unique pointer to each state
+    std::unique_ptr<HitboxObserverCollection> hitboxObserverCollection;
+    HitboxObserverCollection* getHitboxObserverCollection() { return hitboxObserverCollection.get(); 
+    }
+    void setHitboxObserverCollection(std::unique_ptr<HitboxObserverCollection> hoc) { hitboxObserverCollection = std::move(hoc); }
 
 
 };
@@ -48,6 +55,8 @@ public:
     void enter(std::string command) override;
     void exit() override;
     void handleInput() override;
+    void createBoxes() override;
+    void deleteBoxes() override;
     void onCommand(std::string command) override;
 };
 
@@ -59,6 +68,8 @@ public:
     void enter(std::string command) override;
     void exit() override;
     void handleInput() override;
+    void createBoxes() override;
+    void deleteBoxes() override;
     void onCommand(std::string command) override;
     protected:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
@@ -72,6 +83,8 @@ public:
     void enter(std::string command) override;
     void exit() override;
     void handleInput() override;
+    void createBoxes() override;
+    void deleteBoxes() override;
     void onCommand(std::string command) override;
     protected:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
@@ -88,6 +101,8 @@ public:
     void enter(std::string command) override;
     void exit() override;
     void handleInput() override;
+    void createBoxes() override;
+    void deleteBoxes() override;
     void onCommand(std::string command) override;
     protected:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);

@@ -77,5 +77,10 @@ void MovingState::onCommand(std::string command) {
     // std::cout << "==== Start of frame =======" << std::endl;
 }
 
+void MovingState::createBoxes() {
+    // Implementation of createBoxes
+}
 
-
+void MovingState::deleteBoxes() {
+    // Implementation of deleteBoxes
+}

@@ -23,6 +23,7 @@ public:
     void setInputHandler(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
     void setPhysics(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
 
+
 protected:
     std::unique_ptr<InputHandler> inputHandler;
 

@@ -91,6 +91,12 @@ void CrouchingState::onCommand(std::string command) {
     // std::cout << "Move Speed: " << player->getPhysics().getMoveAcceleration() << std::endl;
     // std::cout << "==== Start of frame =======" << std::endl;
 }
+void CrouchingState::createBoxes() {
+    // Implementation of createBoxes
+}
 
+void CrouchingState::deleteBoxes() {
+    // Implementation of deleteBoxes
+}
 
 

@@ -23,14 +23,14 @@ void State::draw() {
     glVertex2f(direction.x, direction.y); // Ending point of the line
     glEnd();
 
-    // // acceleration in red
-    // glm::vec2 acceleration = player->getPhysics().getAcceleration();
-    // glm::vec2 accelerationDirection = acceleration * 10.0f;
-    // glBegin(GL_LINES);
-    // glColor3f(0.0f, 0.0f, 1.0f); // Set line color to red
-    // glVertex2f(0.0f, 0.0f); // Starting point of the line (center of the player)
-    // glVertex2f(accelerationDirection.x, accelerationDirection.y); // Ending point of the line
-    // glEnd();
+    // acceleration in red
+    glm::vec2 acceleration = player->getPhysics().getAcceleration();
+    glm::vec2 accelerationDirection = acceleration * 10.0f;
+    glBegin(GL_LINES);
+    glColor3f(0.0f, 0.0f, 1.0f); // Set line color to red
+    glVertex2f(0.0f, 0.0f); // Starting point of the line (center of the player)
+    glVertex2f(accelerationDirection.x, accelerationDirection.y); // Ending point of the line
+    glEnd();
 
 
     glPopMatrix();

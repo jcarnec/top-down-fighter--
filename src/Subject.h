@@ -6,6 +6,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 /**
  * @class Subject
@@ -20,13 +21,13 @@ public:
    * Attach an observer to this subject.
    * @param observer The observer to attach.
    */
-  virtual void attach(T* observer) = 0;
+  virtual void attach(std::shared_ptr<T> observer) = 0;
 
   /**
    * Detach an observer from this subject.
    * @param observer The observer to detach.
    */ 
-  virtual void detach(T* observer) = 0;
+  virtual void detach(std::shared_ptr<T> observer) = 0;
 
   /**
    * Notify all observers attached to this subject.
@@ -36,7 +37,7 @@ public:
 protected:
   
   /// List of observers attached to the subject
-  std::vector<T*> observers_;
+  std::vector<std::shared_ptr<T>> observers_;
 
 };
 

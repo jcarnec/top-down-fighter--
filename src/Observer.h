@@ -20,7 +20,7 @@ public:
    * Update this observer with data from the subject.
    * @param subject The subject being observed.
    */
-  virtual void update(T* subject) = 0;
+  virtual void notify(T* subject) = 0;
 
 };
 
