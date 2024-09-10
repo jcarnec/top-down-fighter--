@@ -10,7 +10,8 @@ void DashingState::update() {
     directionOfMovement = glm::vec2(0.0f, 0.0f);
     auto hbc = getHitboxCollection();
     for (auto& hb : hbc->hitboxes) {
-        hb->setWorldPosition(player->getPhysics().getPosition() + hb->getPosition());
+        // TODO need to fix this logic
+        hb->getEntity()->getShape().setWorldPosition(player->getPhysics().getPosition() + hb->getEntity()->getShape().getPosition());
         hb->notify();
     }
     if(stateFrameCount >= DURATION) {
@@ -89,14 +90,14 @@ void DashingState::onCommand(std::string command) {
 void DashingState::createBoxes() {
     // create hitbox observers
     auto hoc = std::make_unique<HitboxObserverCollection>();
-    auto ho = std::make_shared<HitboxObserver>(player->getPhysics().getPosition(), Circle(20.0f), 1, glm::vec2(0, 0), player->getId());
+    auto ho = std::make_shared<HitboxObserver>(player);
     hoc->hitboxObservers.push_back(ho);
     player->getHitboxManager().addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
 
     // create hitboxes
     auto hc = std::make_unique<HitboxCollection>();
-    auto hb = std::make_shared<Hitbox>(player->getPhysics().getPosition(), Circle(20.0f), 1, glm::vec2(0, 0), player->getId());
+    auto hb = std::make_shared<Hitbox>(player, 1, glm::vec2(0, 0));
     hc->hitboxes.push_back(hb);
     player->getHitboxManager().addHitbox(hb);
     setHitboxCollection(std::move(hc));

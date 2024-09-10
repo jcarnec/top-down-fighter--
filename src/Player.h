@@ -14,7 +14,7 @@
 
 class Player : public StateMachineEntity {
 public:
-    Player(glm::vec2 position, float size);
+    Player(glm::vec2 position, Shape shape);
 
     void update() override; // Call to update player state
     void draw() const override; // Call to draw player

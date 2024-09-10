@@ -17,8 +17,8 @@ int RESOLUTIONX;
 int RESOLUTIONY;
 
 
-Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), 50.0f);
-Player player2(glm::vec2(800, 800), 50.0f);
+Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Circle(50.0f));
+Player player2(glm::vec2(800, 800), Circle(50.0f));
 
 
 HitboxManager hitboxManager;

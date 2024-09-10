@@ -106,8 +106,8 @@ public:
     void onCommand(std::string command) override;
     protected:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
-    float dashForce = 100.0f;
-    const int DURATION = 3;
+    float dashForce = 50.0f;
+    const int DURATION = 20;
 
 };
 

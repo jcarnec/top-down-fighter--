@@ -7,11 +7,12 @@
 #include <glm/glm.hpp>
 #include "State.h"
 #include <unordered_map>
-#include "Entity.h"
+#include "PhysicsEntity.h"
 
-class StateMachineEntity : public Entity {
+
+class StateMachineEntity : public PhysicsEntity {
 public:
-    StateMachineEntity(glm::vec2 position, float size) : Entity(position, size) {};
+    StateMachineEntity(glm::vec2 position, Shape shape) : PhysicsEntity(position, shape) {};
 
     virtual void update() = 0; // Call to update player state
     virtual void draw() const = 0;

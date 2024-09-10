@@ -1,7 +1,7 @@
 /**
  * @file Hitbox.h
- * @brief Implements a hitbox Subject for the Observer pattern 
-*/
+ * @brief Implements a hitbox Subject for the Observer pattern
+ */
 
 #pragma once
 
@@ -13,21 +13,16 @@
 #include <memory>
 #include <string>
 
-
-
-
-
 /**
  * @class Hitbox
  * @brief A hitbox that acts as a subject in the Observer pattern.
-*/ 
-class Hitbox : public Subject<HitboxObserver> {
+ */
+class Hitbox : public Subject<HitboxObserver>
+{
 
 public:
-
   // constructor
-  Hitbox(glm::vec2 position, Shape shape, int damage, glm::vec2 knockback, std::string ownerId) :
-    position(position), shape(shape), damage(damage), knockback(knockback), ownerId(ownerId) {}
+  Hitbox(Entity* entity, int damage, glm::vec2 knockback) : entity(entity), damage(damage), knockback(knockback) {}
 
   // Implement Subject interface
   void attach(std::shared_ptr<HitboxObserver> observer) override;
@@ -35,29 +30,17 @@ public:
 
   void notify() override;
 
-  std::string getOwner() { return ownerId; }
-  void setOwner(std::string ownerId) { this->ownerId = ownerId; }
-
-  // World Position
-  glm::vec2 getWorldPosition() { return worldPosition; }
-  void setWorldPosition(glm::vec2 worldPosition) { this->worldPosition = worldPosition; }
-
-  // Position
-  glm::vec2 getPosition() { return position; }
-  void setPosition(glm::vec2 position) { this->position = position; }
-
-private:
-
+public:
   // getters and setters
 
   // Size
   float getSize() { return size; }
   void setSize(float size) { this->size = size; }
 
-  // Shape
-  Shape getShape() { return shape; }
-  void setShape(Shape shape) { this->shape = shape; }
-
+  // Entity
+  Entity* getEntity() { return entity; }
+  void setEntity(Entity* entity) { this->entity = entity; }
+  
   // Damage
   int getDamage() { return damage; }
   void setDamage(int damage) { this->damage = damage; }
@@ -70,18 +53,12 @@ private:
   int getHitstun() { return glm::length(knockback); }
 
 private:
-  
   float size;
-  glm::vec2 position;
-  glm::vec2 worldPosition;
   // Shape
-  Shape shape;
+  Entity* entity;
   // Damage
   int damage;
   // Knockback
   glm::vec2 knockback;
   std::vector<std::shared_ptr<HitboxObserver>> observers_;
-  std::string ownerId;
 };
-
-

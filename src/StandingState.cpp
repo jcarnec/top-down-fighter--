@@ -64,7 +64,7 @@ void StandingState::onCommand(std::string command) {
 void StandingState::createBoxes() {
     // create hitbox observers
     auto hoc = std::make_unique<HitboxObserverCollection>();
-    auto ho = std::make_shared<HitboxObserver>(player->getPhysics().getPosition(), Circle(20.0f), 1, glm::vec2(0, 0), player->getId());
+    auto ho = std::make_shared<HitboxObserver>(player);
     hoc->hitboxObservers.push_back(ho);
     player->getHitboxManager().addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));

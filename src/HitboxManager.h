@@ -9,7 +9,6 @@
 #include <vector>
 #include <memory>
 #include "Hitbox.h"
-#include "HitboxObserver.h"
 
 /**
  * @brief A class that manages hitboxes and hitbox observers
@@ -63,6 +62,6 @@ private:
 
     bool checkHitboxInteraction(std::shared_ptr<Hitbox> hitbox, std::shared_ptr<HitboxObserver> hitboxObserver) {
         // Check if hitbox and hitbox observer are from the same player
-        return (hitbox->getOwner() == hitboxObserver->getOwner());
+        return (hitbox->getEntity()->getId() == hitboxObserver->getEntity()->getId());
     }
 };

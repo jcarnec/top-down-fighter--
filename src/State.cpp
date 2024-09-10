@@ -8,7 +8,8 @@ void State::draw() {
     glBegin(GL_POLYGON);
     for (int i = 0; i < 360; i++) {
         float degInRad = i * M_PI / 180;
-        glVertex2f(cos(degInRad) * player->getSize(), sin(degInRad) * player->getSize());
+        // get cirlce radius from player with casting
+        glVertex2f(cos(degInRad) * 50.0, sin(degInRad) * 50.0);
     }
     glEnd();
 
