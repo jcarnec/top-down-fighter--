@@ -4,19 +4,18 @@
 #include "Shape.h"
 #include <string>
 #include <glm/vec2.hpp>
+#include <memory>
+#include <iostream>
 
 class Entity {
 public:
-    Entity(glm::vec2 position, Shape shape) : shape(shape) {
+    Entity(glm::vec2 position, Shape shape) {
         setPosition(position);
-        // generate unique id of length 10
+        setShape(shape);
         id = std::to_string(rand() % 1000000000);
     }
 
     virtual ~Entity() = default;
-
-    virtual void update() = 0;
-    virtual void draw() const = 0;
 
     Shape getShape() const { return shape; }
     void setShape(Shape shape) { this->shape = shape; }

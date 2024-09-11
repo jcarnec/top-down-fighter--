@@ -84,3 +84,7 @@ void MovingState::createBoxes() {
 void MovingState::deleteBoxes() {
     // Implementation of deleteBoxes
 }
+
+void MovingState::updateBoxes() {
+    // Implementation of updateBoxes
+}

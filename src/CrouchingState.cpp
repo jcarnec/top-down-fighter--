@@ -99,4 +99,8 @@ void CrouchingState::deleteBoxes() {
     // Implementation of deleteBoxes
 }
 
+void CrouchingState::updateBoxes() {
+    // Implementation of updateBoxes
+}
+
 

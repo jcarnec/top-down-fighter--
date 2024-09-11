@@ -12,7 +12,9 @@
 
 class StateMachineEntity : public PhysicsEntity {
 public:
-    StateMachineEntity(glm::vec2 position, Shape shape) : PhysicsEntity(position, shape) {};
+    StateMachineEntity(glm::vec2 position, Shape shape) : PhysicsEntity(position, shape) {
+        
+    };
 
     virtual void update() = 0; // Call to update player state
     virtual void draw() const = 0;

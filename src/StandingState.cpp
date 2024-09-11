@@ -3,7 +3,8 @@
 
 
 void StandingState::update() {
-    // Update logic for standing state
+    // update position of hitbox observers to current player position
+    updateBoxes();
 }
 
 void StandingState::enter(std::string command) {
@@ -81,3 +82,10 @@ void StandingState::deleteBoxes() {
     setHitboxObserverCollection(nullptr);
 }
 
+void StandingState::updateBoxes() {
+    // Get the hitbox observer collection
+    auto hoc = getHitboxObserverCollection();
+    for (auto& ho : hoc->hitboxObservers) {
+        ho->getEntity()->setPosition(player->getPhysics().getPosition());
+    }
+}

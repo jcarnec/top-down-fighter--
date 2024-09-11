@@ -23,6 +23,7 @@ public:
     virtual void enter(std::string command) = 0; // New method to handle state entry
     virtual void createBoxes() = 0; // New method to handle state entry
     virtual void deleteBoxes() = 0; // New method to handle state entry
+    virtual void updateBoxes() = 0; // New method to handle state entry
     virtual void exit() = 0;  // New method to handle state exit //
     virtual void handleInput() = 0;
     virtual void onCommand(std::string command) = 0 ;
@@ -57,6 +58,7 @@ public:
     void handleInput() override;
     void createBoxes() override;
     void deleteBoxes() override;
+    void updateBoxes() override;
     void onCommand(std::string command) override;
 };
 
@@ -70,6 +72,7 @@ public:
     void handleInput() override;
     void createBoxes() override;
     void deleteBoxes() override;
+    void updateBoxes() override;
     void onCommand(std::string command) override;
     protected:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
@@ -85,6 +88,7 @@ public:
     void handleInput() override;
     void createBoxes() override;
     void deleteBoxes() override;
+    void updateBoxes() override;
     void onCommand(std::string command) override;
     protected:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);
@@ -103,6 +107,7 @@ public:
     void handleInput() override;
     void createBoxes() override;
     void deleteBoxes() override;
+    void updateBoxes() override;
     void onCommand(std::string command) override;
     protected:
     glm::vec2 directionOfMovement = glm::vec2(0.0f, 0.0f);

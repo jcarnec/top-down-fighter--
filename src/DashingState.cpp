@@ -8,12 +8,7 @@ void DashingState::update() {
     // Update logic for moving state
     player->getPhysics().applyForce(directionOfMovement * player->getPhysics().getMoveForce());
     directionOfMovement = glm::vec2(0.0f, 0.0f);
-    auto hbc = getHitboxCollection();
-    for (auto& hb : hbc->hitboxes) {
-        // TODO need to fix this logic
-        hb->getEntity()->getShape().setWorldPosition(player->getPhysics().getPosition() + hb->getEntity()->getShape().getPosition());
-        hb->notify();
-    }
+    updateBoxes();
     if(stateFrameCount >= DURATION) {
         player->getStateMachine().changeState("STANDING", "DASH_END");
     }
@@ -91,6 +86,7 @@ void DashingState::createBoxes() {
     // create hitbox observers
     auto hoc = std::make_unique<HitboxObserverCollection>();
     auto ho = std::make_shared<HitboxObserver>(player);
+    // get the shape of the player
     hoc->hitboxObservers.push_back(ho);
     player->getHitboxManager().addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
@@ -116,4 +112,24 @@ void DashingState::deleteBoxes() {
     }   
     setHitboxCollection(nullptr);
 }
+
+void DashingState::updateBoxes() {
+    // update hitbox observers
+    for (auto& ho : getHitboxObserverCollection()->hitboxObservers) {
+        // log player position
+        ho->getEntity()->setPosition(player->getPhysics().getPosition());
+        // log updated position
+    }
+
+    // update hitboxes
+    for (auto& hb : getHitboxCollection()->hitboxes) {
+        hb->getEntity()->setPosition(player->getPhysics().getPosition());
+        // log updated position
+        hb->notify();
+    }
+
+
+}
+
+
 

@@ -13,12 +13,13 @@ float moveForce = 0.005f;
 const int targetFPS = 60;
 const float targetFrameTime = 1.0f / static_cast<float>(targetFPS);
 
-int RESOLUTIONX;
-int RESOLUTIONY;
+int RESOLUTIONX = 500;
+int RESOLUTIONY = 500;
 
 
-Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Circle(50.0f));
-Player player2(glm::vec2(800, 800), Circle(50.0f));
+
+Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape());
+Player player2(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape());
 
 
 HitboxManager hitboxManager;
@@ -71,6 +72,8 @@ void update(int value) {
 
 int main(int argc, char** argv) {
 
+
+    // create Entity with Circle shape
     glutInit(&argc, argv);
     // get resolution from monitor
     RESOLUTIONX = glutGet(GLUT_SCREEN_WIDTH);
