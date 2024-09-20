@@ -14,7 +14,7 @@
 
 class Player : public StateMachineEntity {
 public:
-    Player(glm::vec2 position, Shape shape);
+    Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hm);
 
     void update() override; // Call to update player state
     void draw() const override; // Call to draw player
@@ -22,9 +22,10 @@ public:
     InputHandler& getInputHandler() const { return *inputHandler; }
     void setInputHandler(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
     void setPhysics(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
+    
 
 
-protected:
+private:
     std::unique_ptr<InputHandler> inputHandler;
 
 

@@ -8,7 +8,6 @@ InputHandler::InputHandler(Player& player) : player(&player) {
 }
 
 void InputHandler::keyboardDown(unsigned char key, int x, int y) {
-    // dont allow key to be pressed if it is already down
     keyState[key] = BUTTON_DOWN;
 }
 

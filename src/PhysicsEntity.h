@@ -7,9 +7,9 @@
 
 class PhysicsEntity : public Entity {
 public:
-    PhysicsEntity(glm::vec2 position, Shape shape)
+    PhysicsEntity(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hitboxManager)
         : Entity(position, shape), physics(std::make_unique<BasicPhysicsComponent>(*this)),
-          hitboxManager(std::make_shared<HitboxManager>()) {}
+          hitboxManager(hitboxManager) {}
 
     virtual ~PhysicsEntity() = default;
 
@@ -21,7 +21,7 @@ public:
     void setPhysics(std::unique_ptr<BasicPhysicsComponent> physics) { this->physics = std::move(physics); }
 
     // getter and setter for hitbox manager
-    HitboxManager& getHitboxManager() const { return *hitboxManager; }
+    std::shared_ptr<HitboxManager> getHitboxManager() const { return hitboxManager; }
     void setHitboxManager(std::shared_ptr<HitboxManager> hitboxManager) { this->hitboxManager = hitboxManager; }
 
 protected:

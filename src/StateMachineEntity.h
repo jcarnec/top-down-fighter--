@@ -12,7 +12,7 @@
 
 class StateMachineEntity : public PhysicsEntity {
 public:
-    StateMachineEntity(glm::vec2 position, Shape shape) : PhysicsEntity(position, shape) {
+    StateMachineEntity(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hm) : PhysicsEntity(position, shape, hm) {
         
     };
 

@@ -24,8 +24,6 @@ void StandingState::handleInput() {
 
     std::vector<std::string> inputList = player->getInputHandler().getInputList();
 
-    // Analyze inputList and perform state transitions accordingly
-
     if (std::find(inputList.begin(), inputList.end(), "CROUCH") != inputList.end()) {
         player->getStateMachine().applyCommand("CROUCH");
     } 
@@ -67,7 +65,7 @@ void StandingState::createBoxes() {
     auto hoc = std::make_unique<HitboxObserverCollection>();
     auto ho = std::make_shared<HitboxObserver>(player);
     hoc->hitboxObservers.push_back(ho);
-    player->getHitboxManager().addHitboxObserver(ho);
+    player->getHitboxManager()->addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
 }
 
@@ -77,7 +75,7 @@ void StandingState::deleteBoxes() {
     // Delete hitbox observers
     for (auto& ho : hoc->hitboxObservers) {
         // Remove hitbox observer
-        player->getHitboxManager().removeHitboxObserver(ho);
+        player->getHitboxManager()->removeHitboxObserver(ho);
     }
     setHitboxObserverCollection(nullptr);
 }

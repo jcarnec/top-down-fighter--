@@ -88,27 +88,27 @@ void DashingState::createBoxes() {
     auto ho = std::make_shared<HitboxObserver>(player);
     // get the shape of the player
     hoc->hitboxObservers.push_back(ho);
-    player->getHitboxManager().addHitboxObserver(ho);
+    player->getHitboxManager()->addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
 
     // create hitboxes
     auto hc = std::make_unique<HitboxCollection>();
     auto hb = std::make_shared<Hitbox>(player, 1, glm::vec2(0, 0));
     hc->hitboxes.push_back(hb);
-    player->getHitboxManager().addHitbox(hb);
+    player->getHitboxManager()->addHitbox(hb);
     setHitboxCollection(std::move(hc));
 }
 
 void DashingState::deleteBoxes() {
     // delete hitbox observers
     for (auto& ho : getHitboxObserverCollection()->hitboxObservers) {
-        player->getHitboxManager().removeHitboxObserver(ho);
+        player->getHitboxManager()->removeHitboxObserver(ho);
     }
     setHitboxObserverCollection(nullptr);
 
     // delete hitboxes
     for (auto& hb : getHitboxCollection()->hitboxes) {
-        player->getHitboxManager().removeHitbox(hb);
+        player->getHitboxManager()->removeHitbox(hb);
     }   
     setHitboxCollection(nullptr);
 }

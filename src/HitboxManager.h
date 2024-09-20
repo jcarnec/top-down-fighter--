@@ -14,9 +14,11 @@
  * @brief A class that manages hitboxes and hitbox observers
 */
 class HitboxManager {
+
+
     public:
     void addHitbox(std::shared_ptr<Hitbox> hitbox) {
-        for(auto& hitboxObserver : hitboxObservers) {
+      for(auto& hitboxObserver : hitboxObservers) {
             if (checkHitboxInteraction(hitbox, hitboxObserver)) {
                 hitbox->attach(hitboxObserver);
             }
@@ -41,11 +43,6 @@ class HitboxManager {
         hitboxObservers.erase(std::remove(hitboxObservers.begin(), hitboxObservers.end(), hitboxObserver), hitboxObservers.end());
     }
 
-
-private:
-    std::vector<std::shared_ptr<Hitbox>> hitboxes; /**< The hitbox collection */
-    std::vector<std::shared_ptr<HitboxObserver>> hitboxObservers; /**< The hitbox observer collection */
-
     std::vector<std::shared_ptr<Hitbox>>& getHitboxCollection() {
         return hitboxes;
     }
@@ -54,14 +51,14 @@ private:
         return hitboxObservers;
     }
 
-    /**
-    * @brief Decide whether a hitbox and hitbox observer interact with each other
-    * @param hitbox The hitbox to check
-    * @param hitboxObserver The hitbox observer to check
-    */
+private:
+    std::vector<std::shared_ptr<Hitbox>> hitboxes; 
+    std::vector<std::shared_ptr<HitboxObserver>> hitboxObservers; 
+
+
 
     bool checkHitboxInteraction(std::shared_ptr<Hitbox> hitbox, std::shared_ptr<HitboxObserver> hitboxObserver) {
         // Check if hitbox and hitbox observer are from the same player
-        return (hitbox->getEntity()->getId() == hitboxObserver->getEntity()->getId());
+        return (hitbox->getEntity()->getId() != hitboxObserver->getEntity()->getId());
     }
 };

@@ -7,8 +7,8 @@
 
 
 // Player constructor...
-Player::Player(glm::vec2 position, Shape shape)
-    : StateMachineEntity(position, shape) {
+Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hm)
+    : StateMachineEntity(position, shape, hm) {
    // Associate commands with keys in the inputMap
 
         // Register states with the state machine
@@ -25,7 +25,8 @@ Player::Player(glm::vec2 position, Shape shape)
 
         // Initialize the input handler
         inputHandler = std::make_unique<InputHandler>(*this);
-        
+
+        inputHandler->initializeKeyBindings();
 
     }
 

@@ -18,12 +18,17 @@ int RESOLUTIONY = 500;
 
 
 
-Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape());
-Player player2(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape());
+std::shared_ptr<HitboxManager> hitboxManager = std::make_shared<HitboxManager>();
+Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape(), hitboxManager);
+Player player2(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape(), hitboxManager);
 
 
-HitboxManager hitboxManager;
 
+
+
+        
+    
+    
 
 // Timing variables
 std::chrono::high_resolution_clock::time_point prevFrameTime;
@@ -93,9 +98,8 @@ int main(int argc, char** argv) {
     prevFrameTime = std::chrono::high_resolution_clock::now(); // Initialize prevFrameTime
     glutTimerFunc(0, update, 0);
 
-    player.getInputHandler().initializeKeyBindings();
-    player.setHitboxManager(std::make_shared<HitboxManager>());
-    player2.setHitboxManager(std::make_shared<HitboxManager>());
+
+
 
     glutMainLoop();
     return 0;
