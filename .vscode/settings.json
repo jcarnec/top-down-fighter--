@@ -73,6 +73,7 @@
     "cSpell.words": [
         "hitbox",
         "hitboxes",
+        "hurtbox",
         "knockback"
     ]
 }

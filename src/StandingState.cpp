@@ -4,18 +4,15 @@
 
 void StandingState::update() {
     // update position of hitbox observers to current player position
-    updateBoxes();
 }
 
 void StandingState::enter(std::string command) {
-    createBoxes();
     if (command == "MOVE_UP" || command == "MOVE_DOWN" || command == "MOVE_LEFT" || command == "MOVE_RIGHT" || command == "CROUCH" || command == "DASH") {
         onCommand(command);
     }
 }
 
 void StandingState::exit() {
-    deleteBoxes();
     // Perform any cleanup tasks when exiting the StandingState
 }
 
@@ -63,7 +60,7 @@ void StandingState::onCommand(std::string command) {
 void StandingState::createBoxes() {
     // create hitbox observers
     auto hoc = std::make_unique<HitboxObserverCollection>();
-    auto ho = std::make_shared<HitboxObserver>(player);
+    auto ho = std::make_shared<HitboxObserver>(player, "StandingStateHurtbox");
     hoc->hitboxObservers.push_back(ho);
     player->getHitboxManager()->addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));

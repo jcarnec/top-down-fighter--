@@ -4,7 +4,7 @@
  */
 
 #pragma once
-
+#include <sstream>
 #include "Observer.h"
 #include "Shape.h"
 #include <glm/glm.hpp>
@@ -29,11 +29,22 @@ public:
   void notify(Hitbox *subject) override;
 
   // constructor
-  HitboxObserver(Entity* entity) : entity(entity) {}
+  HitboxObserver(Entity* entity, std::string hurtboxName) : entity(entity) {
+    name = entity->getId() + ", " + hurtboxName;
+  }
 
   // getters and setters
   Entity* getEntity() { return entity; }
   void setEntity(Entity* entity) { this->entity = entity; }
+
+  std::string name;
+
+  void log() {
+    std::ostringstream oss;
+    oss << "(" << entity->getPosition().x << "," << entity->getPosition().y << "), " << name;
+    std::cout << oss.str() << std::endl;
+  }
+
 
 private:
 private:

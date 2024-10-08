@@ -13,7 +13,7 @@ void CrouchingState::update() {
 
 // Inside CrouchingState implementation
 void CrouchingState::enter(std::string command) {
-
+    createBoxes();
     // Perform any cleanup tasks when exiting the CrouchingState
     const float playerFriction = player->getPhysics().getFriction();
     player->getPhysics().setFriction(playerFriction + crouchingStateFriction);
@@ -37,8 +37,6 @@ void CrouchingState::exit() {
     player->getPhysics().setMoveForce(playerMoveForce / crouchingStateMoveForceMultiplier);
     const float playerMaxSpeed = player->getPhysics().getMaxSpeed();
     player->getPhysics().setMaxSpeed(playerMaxSpeed / crouchingStateMaxSpeedMultiplier);
-
-    deleteBoxes();
 }
 
 // Other methods specific to CrouchingState...

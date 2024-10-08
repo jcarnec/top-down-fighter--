@@ -22,7 +22,9 @@ class Hitbox : public Subject<HitboxObserver>
 
 public:
   // constructor
-  Hitbox(Entity* entity, int damage, glm::vec2 knockback) : entity(entity), damage(damage), knockback(knockback) {}
+  Hitbox(Entity* entity, int damage, glm::vec2 knockback, std::string hitboxName) : entity(entity), damage(damage), knockback(knockback) {
+    name = entity->getId() + ", " + hitboxName;
+  }
 
   // Implement Subject interface
   void attach(std::shared_ptr<HitboxObserver> observer) override;
@@ -52,6 +54,13 @@ public:
   // Hitstun
   int getHitstun() { return glm::length(knockback); }
 
+  std::string name;
+
+  void log() {
+    std::ostringstream oss;
+    oss << "(" << entity->getPosition().x << "," << entity->getPosition().y << "), " + name;
+    std::cout << oss.str() << std::endl;
+  }
 private:
   float size;
   // Shape

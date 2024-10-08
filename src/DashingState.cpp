@@ -8,7 +8,6 @@ void DashingState::update() {
     // Update logic for moving state
     player->getPhysics().applyForce(directionOfMovement * player->getPhysics().getMoveForce());
     directionOfMovement = glm::vec2(0.0f, 0.0f);
-    updateBoxes();
     if(stateFrameCount >= DURATION) {
         player->getStateMachine().changeState("STANDING", "DASH_END");
     }
@@ -16,7 +15,6 @@ void DashingState::update() {
 
 // Inside DashingState implementation
 void DashingState::enter(std::string command) {
-    createBoxes();
     std::cout << "Entering DashingState" << std::endl;
     glm::vec2 normalizedVelocity = glm::normalize(player->getPhysics().getVelocity());
     if(glm::length(normalizedVelocity) > 0.0f) {
@@ -28,7 +26,6 @@ void DashingState::enter(std::string command) {
 }
 
 void DashingState::exit() {
-    deleteBoxes();
     // Perform any cleanup tasks when exiting the DashingState
     std::cout << "Exiting DashingState" << std::endl;
 }
@@ -85,16 +82,15 @@ void DashingState::onCommand(std::string command) {
 
 void DashingState::createBoxes() {
     // create hitbox observers
-    auto hoc = std::make_unique<HitboxObserverCollection>();
-    auto ho = std::make_shared<HitboxObserver>(player);
-    // get the shape of the player
+   auto hoc = std::make_unique<HitboxObserverCollection>();
+    auto ho = std::make_shared<HitboxObserver>(player, "DashingStateHurtbox");
     hoc->hitboxObservers.push_back(ho);
     player->getHitboxManager()->addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
 
     // create hitboxes
     auto hc = std::make_unique<HitboxCollection>();
-    auto hb = std::make_shared<Hitbox>(player, 1, glm::vec2(0, 0));
+    auto hb = std::make_shared<Hitbox>(player, 1, glm::vec2(0, 0), "DashingStateHitbox");
     hc->hitboxes.push_back(hb);
     player->getHitboxManager()->addHitbox(hb);
     setHitboxCollection(std::move(hc));

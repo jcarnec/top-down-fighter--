@@ -21,12 +21,16 @@ public:
     // display function that displays all hitboxes as red circles and hitbox observers as yellow circles
     void draw() const
     {
+
+
         for (auto &hitbox : hitboxes)
         {
+            hitbox->log();
             hitbox->getEntity()->getShape().draw();
         }
         for (auto &hitboxObserver : hitboxObservers)
         {
+            hitboxObserver->log();
             hitboxObserver->getEntity()->getShape().draw();
         }
     }

@@ -16,10 +16,12 @@ void StateMachine::changeState(const std::string& stateName, const std::string& 
     auto newStateIt = states.find(stateName);
     if (newStateIt != states.end()) {
         if (currentState) {
+            currentState->deleteBoxes();
             currentState->exit();
         }
         currentState = newStateIt->second.get();
         // eventually command will be a more complex object
+        currentState->createBoxes();
         currentState->enter(command);
     }
 }
@@ -30,6 +32,7 @@ void StateMachine::update() {
         currentState->handleInput();
         currentState->update();
         currentState->physicsUpdate();
+        currentState->updateBoxes();
     }
 }
 
