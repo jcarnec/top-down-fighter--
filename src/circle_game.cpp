@@ -15,8 +15,8 @@ int RESOLUTIONX = 500;
 int RESOLUTIONY = 500;
 
 std::shared_ptr<HitboxManager> hitboxManager = std::make_shared<HitboxManager>();
-Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape(), hitboxManager);
-Player player2(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape(), hitboxManager);
+Player player(glm::vec2((RESOLUTIONX / 4) * 2, (RESOLUTIONX / 4) * 1), Shape(), hitboxManager);
+Player player2(glm::vec2((RESOLUTIONX / 4) * 3, (RESOLUTIONX / 4) * 2), Shape(), hitboxManager);
 
 // Timing variables
 std::chrono::high_resolution_clock::time_point prevFrameTime;

@@ -17,7 +17,7 @@ public:
     glm::vec2 getAcceleration() const { return acceleration; }
 
     void applyForce(const glm::vec2& force) { acceleration += force; }
-    void applyVelocity() { position += velocity; }
+    void applyVelocity() { owner.setPosition(owner.getPosition() += velocity);  }
     void applyAcceleration() { velocity += acceleration; }
     void applyFriction() {
         if (glm::length(velocity) > 0.0f) {
@@ -43,7 +43,7 @@ public:
     glm::vec2 getEAcceleration() const { return eAcceleration; }
 
     void applyEForce(const glm::vec2& eForce) { eAcceleration += eForce; }
-    void applyEVelocity() { position += eVelocity; }
+    void applyEVelocity() { owner.setPosition(owner.getPosition() += eVelocity);  }
     void applyEAcceleration() { eVelocity += eAcceleration; }
     void applyEFriction() {
         // if(glm::length(eVelocity) > 0.0f) {

@@ -45,6 +45,7 @@ public:
     std::cout << oss.str() << std::endl;
   }
 
+  void onGettingHit(Hitbox *hb);
 
 private:
 private:

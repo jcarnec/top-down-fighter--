@@ -32,6 +32,10 @@ public:
 
   void notify() override;
 
+  void onHit(HitboxObserver hbo) {
+    std::cout << "I Hit!" << std::endl;
+  };
+
 public:
   // getters and setters
 
@@ -61,6 +65,11 @@ public:
     oss << "(" << entity->getPosition().x << "," << entity->getPosition().y << "), " + name;
     std::cout << oss.str() << std::endl;
   }
+
+  void onHitting(HitboxObserver hbo) {
+    std::cout << "HIT" << std::endl;
+  }
+
 private:
   float size;
   // Shape

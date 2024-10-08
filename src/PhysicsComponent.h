@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include <vector>
+#include "Entity.h"
 
 
 class Entity;
@@ -30,8 +31,8 @@ public:
     virtual glm::vec2 getVelocity() const { return velocity; }
     virtual void setAcceleration(const glm::vec2& newAcceleration) { acceleration = newAcceleration; }
     virtual glm::vec2 getAcceleration() const { return acceleration;}
-    virtual void setPosition(const glm::vec2& newPosition) { position = newPosition; }
-    virtual glm::vec2 getPosition() const { return position; }
+    virtual void setPosition(const glm::vec2& newPosition) { owner.setPosition(newPosition); }
+    virtual glm::vec2 getPosition() const { return owner.getPosition(); }
     virtual void setFriction(float newFriction) { friction = newFriction;}
     virtual float getFriction() const { return friction; }
     virtual void setMaxSpeed(float newMaxSpeed) { maxSpeed = newMaxSpeed;}
@@ -55,7 +56,6 @@ public:
 protected:
     glm::vec2 velocity = glm::vec2(0.0f);
     glm::vec2 acceleration = glm::vec2(0.0f);
-    glm::vec2 position = glm::vec2(0.0f);
     glm::vec2 orientation = glm::vec2(0.0f);
     float friction = 0.2f;
     float maxSpeed = 10;

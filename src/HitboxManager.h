@@ -25,12 +25,12 @@ public:
 
         for (auto &hitbox : hitboxes)
         {
-            hitbox->log();
+            // hitbox->log();
             hitbox->getEntity()->getShape().draw();
         }
         for (auto &hitboxObserver : hitboxObservers)
         {
-            hitboxObserver->log();
+            // hitboxObserver->log();
             hitboxObserver->getEntity()->getShape().draw();
         }
     }

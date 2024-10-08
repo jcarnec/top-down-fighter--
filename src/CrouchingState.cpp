@@ -13,7 +13,6 @@ void CrouchingState::update() {
 
 // Inside CrouchingState implementation
 void CrouchingState::enter(std::string command) {
-    createBoxes();
     // Perform any cleanup tasks when exiting the CrouchingState
     const float playerFriction = player->getPhysics().getFriction();
     player->getPhysics().setFriction(playerFriction + crouchingStateFriction);
