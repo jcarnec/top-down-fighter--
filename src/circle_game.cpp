@@ -5,8 +5,6 @@
 #include "InputHandler.h"
 #include "HitboxManager.h"
 
-
-
 float moveForce = 0.005f;
 
 // Frame rate control
@@ -16,19 +14,9 @@ const float targetFrameTime = 1.0f / static_cast<float>(targetFPS);
 int RESOLUTIONX = 500;
 int RESOLUTIONY = 500;
 
-
-
 std::shared_ptr<HitboxManager> hitboxManager = std::make_shared<HitboxManager>();
 Player player(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape(), hitboxManager);
 Player player2(glm::vec2(RESOLUTIONX / 2, RESOLUTIONX / 2), Shape(), hitboxManager);
-
-
-
-
-
-        
-    
-    
 
 // Timing variables
 std::chrono::high_resolution_clock::time_point prevFrameTime;
@@ -55,6 +43,7 @@ void display() {
 
     player.draw();
     player2.draw();
+    hitboxManager->draw();
 
     glutSwapBuffers();
 }
@@ -77,7 +66,6 @@ void update(int value) {
 
 int main(int argc, char** argv) {
 
-
     // create Entity with Circle shape
     glutInit(&argc, argv);
     // get resolution from monitor
@@ -89,7 +77,6 @@ int main(int argc, char** argv) {
     // fix window size
     glutReshapeWindow(RESOLUTIONX, RESOLUTIONY);
     
-
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
     glutKeyboardUpFunc(keyboardUp);
@@ -97,9 +84,6 @@ int main(int argc, char** argv) {
     glutDisplayFunc(display);
     prevFrameTime = std::chrono::high_resolution_clock::now(); // Initialize prevFrameTime
     glutTimerFunc(0, update, 0);
-
-
-
 
     glutMainLoop();
     return 0;

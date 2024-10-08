@@ -21,7 +21,10 @@ public:
     void setShape(Shape shape) { this->shape = shape; }
 
     glm::vec2 getPosition() const { return position; }
-    void setPosition(glm::vec2 position) { this->position = position; }
+    void setPosition(glm::vec2 position) { 
+        this->position = position; 
+        this->shape.setGlobalPosition(position + shape.getPosition());
+    }
 
     std::string getId() const { return id; }
     void setId(std::string id) { this->id = id; }

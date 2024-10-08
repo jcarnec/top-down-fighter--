@@ -37,6 +37,8 @@ void CrouchingState::exit() {
     player->getPhysics().setMoveForce(playerMoveForce / crouchingStateMoveForceMultiplier);
     const float playerMaxSpeed = player->getPhysics().getMaxSpeed();
     player->getPhysics().setMaxSpeed(playerMaxSpeed / crouchingStateMaxSpeedMultiplier);
+
+    deleteBoxes();
 }
 
 // Other methods specific to CrouchingState...

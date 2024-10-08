@@ -21,6 +21,8 @@ void MovingState::enter(std::string command) {
 
 void MovingState::exit() {
     // Perform any cleanup tasks when exiting the MovingState
+    // update hitboxes
+    deleteBoxes();
 }
 
 // Other methods specific to MovingState...
@@ -79,12 +81,32 @@ void MovingState::onCommand(std::string command) {
 
 void MovingState::createBoxes() {
     // Implementation of createBoxes
+    auto hoc = std::make_unique<HitboxObserverCollection>();
+    auto ho = std::make_shared<HitboxObserver>(player);
+    hoc->hitboxObservers.push_back(ho);
+    player->getHitboxManager()->addHitboxObserver(ho);
+    setHitboxObserverCollection(std::move(hoc));
 }
 
 void MovingState::deleteBoxes() {
-    // Implementation of deleteBoxes
+    // Get the hitbox observer collection
+    auto hoc = getHitboxObserverCollection();
+    // Delete hitbox observers
+    for (auto& ho : hoc->hitboxObservers) {
+        // Remove hitbox observer
+        player->getHitboxManager()->removeHitboxObserver(ho);
+    }
+    setHitboxObserverCollection(nullptr);
 }
 
 void MovingState::updateBoxes() {
-    // Implementation of updateBoxes
+    // Get the hitbox observer collection
+    auto hoc = getHitboxObserverCollection();
+    if (!hoc) {
+        std::cerr << "Error: HitboxObserverCollection is null" << std::endl;
+        return;
+    }
+    for (auto& ho : hoc->hitboxObservers) {
+        ho->getEntity()->setPosition(player->getPhysics().getPosition());
+    }
 }

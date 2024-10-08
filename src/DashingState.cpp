@@ -28,6 +28,7 @@ void DashingState::enter(std::string command) {
 }
 
 void DashingState::exit() {
+    deleteBoxes();
     // Perform any cleanup tasks when exiting the DashingState
     std::cout << "Exiting DashingState" << std::endl;
 }
@@ -114,20 +115,17 @@ void DashingState::deleteBoxes() {
 }
 
 void DashingState::updateBoxes() {
-    // update hitbox observers
     for (auto& ho : getHitboxObserverCollection()->hitboxObservers) {
-        // log player position
         ho->getEntity()->setPosition(player->getPhysics().getPosition());
-        // log updated position
     }
 
-    // update hitboxes
     for (auto& hb : getHitboxCollection()->hitboxes) {
         hb->getEntity()->setPosition(player->getPhysics().getPosition());
-        // log updated position
-        hb->notify();
     }
 
+    for (auto& hb : getHitboxCollection()->hitboxes) {
+        hb->notify();
+    }
 
 }
 

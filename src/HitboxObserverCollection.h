@@ -11,8 +11,6 @@ class HitboxObserverCollection {
 public:
     HitboxObserverCollection() {}
 
-
-
 public:
     // collection of hitboxes
     std::vector<std::shared_ptr<HitboxObserver>> hitboxObservers;
