@@ -9,22 +9,23 @@
 
 // Player constructor...
 Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hm)
-    : StateMachineEntity(position, shape) {
+    : Entity(position, shape) {
    // Associate commands with keys in the inputMap
 
         addComponent<BasicPhysicsComponent>();
+        addComponent<StateMachine>();
         addSharedComponent<HitboxManager>(hm);
         // Register states with the state machine
-        stateMachine.registerState("STANDING", std::make_unique<StandingState>(this, "STANDING"));
-        stateMachine.registerState("MOVING", std::make_unique<MovingState>(this, "MOVING"));
-        stateMachine.registerState("CROUCHING", std::make_unique<CrouchingState>(this, "CROUCHING"));
-        stateMachine.registerState("DASHING", std::make_unique<DashingState>(this, "DASHING"));
+        getComponent<StateMachine>()->registerState("STANDING", std::make_unique<StandingState>(this, "STANDING"));
+        getComponent<StateMachine>()->registerState("MOVING", std::make_unique<MovingState>(this, "MOVING"));
+        getComponent<StateMachine>()->registerState("CROUCHING", std::make_unique<CrouchingState>(this, "CROUCHING"));
+        getComponent<StateMachine>()->registerState("DASHING", std::make_unique<DashingState>(this, "DASHING"));
         
         // Set the current player for the state machine
-        stateMachine.setCurrentPlayer(this);
+        getComponent<StateMachine>()->setCurrentPlayer(this);
         
         // Initial state
-        stateMachine.changeState("STANDING", "INITIAL");
+        getComponent<StateMachine>()->changeState("STANDING", "INITIAL");
 
         // Initialize the input handler
         inputHandler = std::make_unique<InputHandler>(*this);
@@ -37,10 +38,10 @@ Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> h
 
 void Player::update() {
     // check if currentState is nullptr
-    stateMachine.update();
+    getComponent<StateMachine>()->update();
         
 }
 
-void Player::draw() const {
-    stateMachine.draw();
+void Player::draw() {
+    getComponent<StateMachine>()->draw();
 }

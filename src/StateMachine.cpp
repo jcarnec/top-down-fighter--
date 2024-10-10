@@ -6,7 +6,6 @@
 // forward declaration
 class Player;
 
-StateMachine::StateMachine() : currentState(nullptr) {}
 
 void StateMachine::registerState(const std::string& stateName, std::shared_ptr<State> state) {
     states[stateName] = state;

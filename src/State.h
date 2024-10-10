@@ -10,6 +10,9 @@
 #include <cmath>
 #include "HitboxCollection.h"
 #include "HitboxObserverCollection.h"
+#include "StateMachine.h"
+
+
 
 class Player; // Forward declaration of Player class
 

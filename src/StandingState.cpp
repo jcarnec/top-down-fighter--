@@ -22,38 +22,38 @@ void StandingState::handleInput() {
     std::vector<std::string> inputList = player->getInputHandler().getInputList();
 
     if (std::find(inputList.begin(), inputList.end(), "CROUCH") != inputList.end()) {
-        player->getStateMachine().applyCommand("CROUCH");
+        player->getComponent<StateMachine>()->applyCommand("CROUCH");
     } 
     if (std::find(inputList.begin(), inputList.end(), "DASH") != inputList.end()) {
-        player->getStateMachine().applyCommand("DASH");
+        player->getComponent<StateMachine>()->applyCommand("DASH");
     }
     if (std::find(inputList.begin(), inputList.end(), "UP") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_UP");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_UP");
     } 
     if (std::find(inputList.begin(), inputList.end(), "DOWN") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_DOWN");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_DOWN");
     }
     if (std::find(inputList.begin(), inputList.end(), "LEFT") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_LEFT");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_LEFT");
     }
     if (std::find(inputList.begin(), inputList.end(), "RIGHT") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_RIGHT");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_RIGHT");
     }
 }
 
 void StandingState::onCommand(std::string command) {
     if (command == "MOVE_UP") {
-        player->getStateMachine().changeState("MOVING", command);
+        player->getComponent<StateMachine>()->changeState("MOVING", command);
     } else if (command == "MOVE_DOWN") {
-        player->getStateMachine().changeState("MOVING", command);
+        player->getComponent<StateMachine>()->changeState("MOVING", command);
     } else if (command == "MOVE_LEFT") {
-        player->getStateMachine().changeState("MOVING", command);
+        player->getComponent<StateMachine>()->changeState("MOVING", command);
     } else if (command == "MOVE_RIGHT") {
-        player->getStateMachine().changeState("MOVING", command);
+        player->getComponent<StateMachine>()->changeState("MOVING", command);
     } else if (command == "CROUCH") {
-        player->getStateMachine().changeState("CROUCHING", command);
+        player->getComponent<StateMachine>()->changeState("CROUCHING", command);
     } else if (command == "DASH") {
-        player->getStateMachine().changeState("DASHING", command);
+        player->getComponent<StateMachine>()->changeState("DASHING", command);
     }
 }
 

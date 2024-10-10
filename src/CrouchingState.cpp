@@ -5,7 +5,6 @@
 #include <iostream>
 
 
-
 void CrouchingState::update() {
     // Update logic for moving state
     player->getComponent<BasicPhysicsComponent>()->applyForce(directionOfMovement * player->getComponent<BasicPhysicsComponent>()->getMoveForce());
@@ -47,22 +46,22 @@ void CrouchingState::handleInput() {
 
     // Analyze inputList and perform state transitions accordingly
     if (std::find(inputList.begin(), inputList.end(), "DASH") != inputList.end()) {
-        player->getStateMachine().applyCommand("DASH");
+        player->getComponent<StateMachine>()->applyCommand("DASH");
     } 
     if (std::find(inputList.begin(), inputList.end(), "UP") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_UP");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_UP");
     } 
     if (std::find(inputList.begin(), inputList.end(), "DOWN") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_DOWN");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_DOWN");
     }
     if (std::find(inputList.begin(), inputList.end(), "LEFT") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_LEFT");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_LEFT");
     }
     if (std::find(inputList.begin(), inputList.end(), "RIGHT") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_RIGHT");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_RIGHT");
     }
     if (std::find(inputList.begin(), inputList.end(), "CROUCH") == inputList.end()) {
-        player->getStateMachine().applyCommand("EXIT_CROUCH");
+        player->getComponent<StateMachine>()->applyCommand("EXIT_CROUCH");
     } 
 
 }
@@ -78,9 +77,9 @@ void CrouchingState::onCommand(std::string command) {
     } else if (command == "MOVE_RIGHT") {
         directionOfMovement += glm::vec2(1.0f, 0.0f);
     } else if (command == "EXIT_CROUCH") {
-        player->getStateMachine().changeState("STANDING", command);
+        player->getComponent<StateMachine>()->changeState("STANDING", command);
     } else if (command == "DASH") {
-        player->getStateMachine().changeState("DASHING", command);
+        player->getComponent<StateMachine>()->changeState("DASHING", command);
     }
     // // log all physics values to console
     // std::cout << "==== Start of frame =======" << std::endl;

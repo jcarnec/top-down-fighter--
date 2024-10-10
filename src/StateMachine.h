@@ -4,14 +4,15 @@
 #include <memory>
 #include <unordered_map>
 #include <string>
+#include "SingleComponent.h"
 
 class Player;
 class State;
 
-class StateMachine {
+class StateMachine : public SingleComponent {
 public:
 
-    StateMachine();
+    StateMachine(Entity& owner) : SingleComponent(owner), currentState(nullptr) {};
 
     void registerState(const std::string& stateName, std::shared_ptr<State> state);
     void changeState(const std::string& stateName, const std::string& command);

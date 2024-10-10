@@ -10,7 +10,7 @@ void DashingState::update() {
     player->getComponent<BasicPhysicsComponent>()->applyForce(directionOfMovement * player->getComponent<BasicPhysicsComponent>()->getMoveForce());
     directionOfMovement = glm::vec2(0.0f, 0.0f);
     if(stateFrameCount >= DURATION) {
-        player->getStateMachine().changeState("STANDING", "DASH_END");
+        player->getComponent<StateMachine>()->changeState("STANDING", "DASH_END");
     }
 }
 
@@ -39,26 +39,26 @@ void DashingState::handleInput() {
     // Analyze inputList and perform state transitions accordingly
 
     if (std::find(inputList.begin(), inputList.end(), "CROUCH") != inputList.end()) {
-        player->getStateMachine().applyCommand("CROUCH");
+        player->getComponent<StateMachine>()->applyCommand("CROUCH");
     } 
     if (std::find(inputList.begin(), inputList.end(), "UP") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_UP");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_UP");
     } 
     if (std::find(inputList.begin(), inputList.end(), "DOWN") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_DOWN");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_DOWN");
     }
     if (std::find(inputList.begin(), inputList.end(), "LEFT") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_LEFT");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_LEFT");
     }
     if (std::find(inputList.begin(), inputList.end(), "RIGHT") != inputList.end()) {
-        player->getStateMachine().applyCommand("MOVE_RIGHT");
+        player->getComponent<StateMachine>()->applyCommand("MOVE_RIGHT");
     }
 }
 
 
 void DashingState::onCommand(std::string command) {
     if (command == "CROUCH") {
-        player->getStateMachine().changeState("CROUCHING", command);
+        player->getComponent<StateMachine>()->changeState("CROUCHING", command);
     }
     if (command == "MOVE_UP") {
         directionOfMovement += glm::vec2(0.0f, 1.0f);
