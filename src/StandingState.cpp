@@ -19,7 +19,7 @@ void StandingState::exit() {
 // Modify the StandingState.cpp file
 void StandingState::handleInput() {
 
-    std::vector<std::string> inputList = player->getInputHandler().getInputList();
+    std::vector<std::string> inputList = player->getComponent<InputHandler>()->getInputList();
 
     if (std::find(inputList.begin(), inputList.end(), "CROUCH") != inputList.end()) {
         player->getComponent<StateMachine>()->applyCommand("CROUCH");

@@ -4,8 +4,6 @@
 #include <memory>
 #include "Player.h"
 
-InputHandler::InputHandler(Player& player) : player(&player) {
-}
 
 void InputHandler::keyboardDown(unsigned char key, int x, int y) {
     keyState[key] = BUTTON_DOWN;

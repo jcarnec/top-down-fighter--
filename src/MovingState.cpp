@@ -28,7 +28,7 @@ void MovingState::exit() {
 // Other methods specific to MovingState...
 void MovingState::handleInput() {
     // Get inputList from player
-    std::vector<std::string> inputList = player->getInputHandler().getInputList();
+    std::vector<std::string> inputList = player->getComponent<InputHandler>()->getInputList();
 
     // Analyze inputList and perform state transitions accordingly
 

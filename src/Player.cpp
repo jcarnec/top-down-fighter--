@@ -14,6 +14,7 @@ Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> h
 
         addComponent<BasicPhysicsComponent>();
         addComponent<StateMachine>();
+        addComponent<InputHandler>();
         addSharedComponent<HitboxManager>(hm);
         // Register states with the state machine
         getComponent<StateMachine>()->registerState("STANDING", std::make_unique<StandingState>(this, "STANDING"));
@@ -27,10 +28,8 @@ Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> h
         // Initial state
         getComponent<StateMachine>()->changeState("STANDING", "INITIAL");
 
-        // Initialize the input handler
-        inputHandler = std::make_unique<InputHandler>(*this);
 
-        inputHandler->initializeKeyBindings();
+        getComponent<InputHandler>()->initializeKeyBindings();
 
     }
 

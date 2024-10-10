@@ -18,17 +18,5 @@ public:
     void update(); 
     void draw(); 
 
-    InputHandler& getInputHandler() const { return *inputHandler; }
-    void setInputHandler(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
-    void setPhysics(std::unique_ptr<InputHandler> inputHandler) { this->inputHandler = std::move(inputHandler); }
-    
-
-
-private:
-    std::unique_ptr<InputHandler> inputHandler;
-
-
-    
-
 };
 

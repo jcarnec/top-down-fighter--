@@ -6,6 +6,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "SingleComponent.h"
 
 
 class Player;
@@ -15,9 +16,9 @@ class Player;
 
 
 
-class InputHandler {
+class InputHandler : public SingleComponent {
 public:
-    InputHandler(Player& player);
+    InputHandler(Entity& owner) : SingleComponent(owner) {};
 
     void keyboardDown(unsigned char key, int x, int y);
     void keyboardUp(unsigned char key, int x, int y);
@@ -36,7 +37,6 @@ public:
 
     void logInputList();
 protected:
-    Player* player;
     std::unordered_map<std::string, unsigned char> inputMap = {};
     std::vector<std::string> inputList = {};
 

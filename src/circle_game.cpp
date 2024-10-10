@@ -23,11 +23,11 @@ std::chrono::high_resolution_clock::time_point prevFrameTime;
 
 // Keyboard callback
 void keyboardUp(unsigned char key, int x, int y) {
-    player.getInputHandler().keyboardUp(key, x, y);
+    player.getComponent<InputHandler>()->keyboardUp(key, x, y);
 }
 
 void keyboardDown(unsigned char key, int x, int y) {
-    player.getInputHandler().keyboardDown(key, x, y);
+    player.getComponent<InputHandler>()->keyboardDown(key, x, y);
 }
 
 // Display callback
@@ -55,11 +55,11 @@ void update(int value) {
     float deltaTime = std::chrono::duration<float>(now - prevFrameTime).count();
     prevFrameTime = now;
 
-    player.getInputHandler().update();
+    player.getComponent<InputHandler>()->update();
     //log input list
     player.update();
     player2.update();
-    player.getInputHandler().clearInputList();
+    player.getComponent<InputHandler>()->clearInputList();
     glutPostRedisplay(); // Trigger a redraw
     glutTimerFunc(static_cast<unsigned int>(targetFrameTime * 1000), update, 0); // Call update after targetFrameTime in milliseconds
 }
