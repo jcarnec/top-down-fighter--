@@ -2,15 +2,18 @@
 #include <GL/glut.h>
 #include <cmath>
 #include <iostream>
+#include "HitboxManager.h"
 
 // #include <memory> // Make sure to include this header for std::make_unique
 
 
 // Player constructor...
 Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hm)
-    : StateMachineEntity(position, shape, hm) {
+    : StateMachineEntity(position, shape) {
    // Associate commands with keys in the inputMap
 
+        addComponent<BasicPhysicsComponent>();
+        addSharedComponent<HitboxManager>(hm);
         // Register states with the state machine
         stateMachine.registerState("STANDING", std::make_unique<StandingState>(this, "STANDING"));
         stateMachine.registerState("MOVING", std::make_unique<MovingState>(this, "MOVING"));

@@ -10,6 +10,7 @@
 #include "Entity.h"
 #include "StateMachineEntity.h"
 #include "InputHandler.h"
+#include "HitboxManager.h"
 
 
 class Player : public StateMachineEntity {

@@ -2,11 +2,12 @@
 #include "Player.h"
 #include <glm/glm.hpp>
 #include <iostream>
+#include "HitboxManager.h"
 
 
 void MovingState::update() {
     // Update logic for moving state
-    player->getPhysics().applyForce(directionOfMovement * player->getPhysics().getMoveForce());
+    player->getComponent<BasicPhysicsComponent>()->applyForce(directionOfMovement * player->getComponent<BasicPhysicsComponent>()->getMoveForce());
     directionOfMovement = glm::vec2(0.0f, 0.0f);
 }
 
@@ -70,11 +71,11 @@ void MovingState::onCommand(std::string command) {
 
     // // log all physics values to console
     // std::cout << "==== Start of frame =======" << std::endl;
-    // std::cout << "Acceleration: " << player->getPhysics().getAcceleration().x << ", " << player->getPhysics().getAcceleration().y << std::endl;
-    // std::cout << "Velocity: " << player->getPhysics().getVelocity().x << ", " << player->getPhysics().getVelocity().y << std::endl;
-    // std::cout << "Position: " << player->getPhysics().getPosition().x << ", " << player->getPhysics().getPosition().y << std::endl;
-    // std::cout << "Friction: " << player->getPhysics().getFriction() << std::endl;
-    // std::cout << "Move Speed: " << player->getPhysics().getMoveForce() << std::endl;
+    // std::cout << "Acceleration: " << player->getComponent<BasicPhysicsComponent>()->getAcceleration().x << ", " << player->getComponent<BasicPhysicsComponent>()->getAcceleration().y << std::endl;
+    // std::cout << "Velocity: " << player->getComponent<BasicPhysicsComponent>()->getVelocity().x << ", " << player->getComponent<BasicPhysicsComponent>()->getVelocity().y << std::endl;
+    // std::cout << "Position: " << player->getComponent<BasicPhysicsComponent>()->getPosition().x << ", " << player->getComponent<BasicPhysicsComponent>()->getPosition().y << std::endl;
+    // std::cout << "Friction: " << player->getComponent<BasicPhysicsComponent>()->getFriction() << std::endl;
+    // std::cout << "Move Speed: " << player->getComponent<BasicPhysicsComponent>()->getMoveForce() << std::endl;
     // std::cout << "==== Start of frame =======" << std::endl;
 }
 
@@ -83,7 +84,7 @@ void MovingState::createBoxes() {
     auto hoc = std::make_unique<HitboxObserverCollection>();
     auto ho = std::make_shared<HitboxObserver>(player, "MovingStateHurtbox");
     hoc->hitboxObservers.push_back(ho);
-    player->getHitboxManager()->addHitboxObserver(ho);
+    player->getSharedComponent<HitboxManager>()->addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
 }
 
@@ -93,7 +94,7 @@ void MovingState::deleteBoxes() {
     // Delete hitbox observers
     for (auto& ho : hoc->hitboxObservers) {
         // Remove hitbox observer
-        player->getHitboxManager()->removeHitboxObserver(ho);
+        player->getSharedComponent<HitboxManager>()->removeHitboxObserver(ho);
     }
     setHitboxObserverCollection(nullptr);
 }
@@ -102,6 +103,6 @@ void MovingState::updateBoxes() {
     // Get the hitbox observer collection
     auto hoc = getHitboxObserverCollection();
     for (auto& ho : hoc->hitboxObservers) {
-        ho->getEntity()->setPosition(player->getPhysics().getPosition());
+        ho->getEntity()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
     }
 }

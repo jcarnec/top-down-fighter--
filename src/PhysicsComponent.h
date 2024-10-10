@@ -5,14 +5,11 @@
 #include "Entity.h"
 
 
-class Entity;
-
-class PhysicsComponent {
+class PhysicsComponent : public SingleComponent {
 public:
 
+    PhysicsComponent(Entity& owner) : SingleComponent(owner) {}
 
-
-    PhysicsComponent(Entity& owner) : owner(owner) {};
     virtual void applyForce(const glm::vec2& force) = 0;
     virtual void applyFriction() = 0;
     virtual void applyAcceleration() = 0;
@@ -31,8 +28,8 @@ public:
     virtual glm::vec2 getVelocity() const { return velocity; }
     virtual void setAcceleration(const glm::vec2& newAcceleration) { acceleration = newAcceleration; }
     virtual glm::vec2 getAcceleration() const { return acceleration;}
-    virtual void setPosition(const glm::vec2& newPosition) { owner.setPosition(newPosition); }
-    virtual glm::vec2 getPosition() const { return owner.getPosition(); }
+    virtual void setPosition(const glm::vec2& newPosition) { owner->setPosition(newPosition); }
+    virtual glm::vec2 getPosition() const { return owner->getPosition(); }
     virtual void setFriction(float newFriction) { friction = newFriction;}
     virtual float getFriction() const { return friction; }
     virtual void setMaxSpeed(float newMaxSpeed) { maxSpeed = newMaxSpeed;}
@@ -68,7 +65,6 @@ protected:
     float eFriction = 0.2f;
     float eMaxSpeed = 10;
     float eMoveForce = 2;
-    Entity& owner;
 
     // Other physics-related methods...
 };

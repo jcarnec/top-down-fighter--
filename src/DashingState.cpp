@@ -2,11 +2,12 @@
 #include "Player.h"
 #include <glm/glm.hpp>
 #include <iostream>
+#include "HitboxManager.h"
 
 
 void DashingState::update() {
     // Update logic for moving state
-    player->getPhysics().applyForce(directionOfMovement * player->getPhysics().getMoveForce());
+    player->getComponent<BasicPhysicsComponent>()->applyForce(directionOfMovement * player->getComponent<BasicPhysicsComponent>()->getMoveForce());
     directionOfMovement = glm::vec2(0.0f, 0.0f);
     if(stateFrameCount >= DURATION) {
         player->getStateMachine().changeState("STANDING", "DASH_END");
@@ -16,9 +17,9 @@ void DashingState::update() {
 // Inside DashingState implementation
 void DashingState::enter(std::string command) {
     std::cout << "Entering DashingState" << std::endl;
-    glm::vec2 normalizedVelocity = glm::normalize(player->getPhysics().getVelocity());
+    glm::vec2 normalizedVelocity = glm::normalize(player->getComponent<BasicPhysicsComponent>()->getVelocity());
     if(glm::length(normalizedVelocity) > 0.0f) {
-        player->getPhysics().applyEForce(normalizedVelocity * dashForce);
+        player->getComponent<BasicPhysicsComponent>()->applyEForce(normalizedVelocity * dashForce);
     }
     if (command == "MOVE_UP" || command == "MOVE_DOWN" || command == "MOVE_LEFT" || command == "MOVE_RIGHT" || command == "CROUCH") {
         onCommand(command);
@@ -72,11 +73,11 @@ void DashingState::onCommand(std::string command) {
 
     // // log all physics values to console
     // std::cout << "==== Start of frame =======" << std::endl;
-    // std::cout << "Acceleration: " << player->getPhysics().getAcceleration().x << ", " << player->getPhysics().getAcceleration().y << std::endl;
-    // std::cout << "Velocity: " << player->getPhysics().getVelocity().x << ", " << player->getPhysics().getVelocity().y << std::endl;
-    // std::cout << "Position: " << player->getPhysics().getPosition().x << ", " << player->getPhysics().getPosition().y << std::endl;
-    // std::cout << "Friction: " << player->getPhysics().getFriction() << std::endl;
-    // std::cout << "Move Speed: " << player->getPhysics().getMoveForce() << std::endl;
+    // std::cout << "Acceleration: " << player->getComponent<BasicPhysicsComponent>()->getAcceleration().x << ", " << player->getComponent<BasicPhysicsComponent>()->getAcceleration().y << std::endl;
+    // std::cout << "Velocity: " << player->getComponent<BasicPhysicsComponent>()->getVelocity().x << ", " << player->getComponent<BasicPhysicsComponent>()->getVelocity().y << std::endl;
+    // std::cout << "Position: " << player->getComponent<BasicPhysicsComponent>()->getPosition().x << ", " << player->getComponent<BasicPhysicsComponent>()->getPosition().y << std::endl;
+    // std::cout << "Friction: " << player->getComponent<BasicPhysicsComponent>()->getFriction() << std::endl;
+    // std::cout << "Move Speed: " << player->getComponent<BasicPhysicsComponent>()->getMoveForce() << std::endl;
     // std::cout << "==== Start of frame =======" << std::endl;
 }
 
@@ -85,38 +86,38 @@ void DashingState::createBoxes() {
    auto hoc = std::make_unique<HitboxObserverCollection>();
     auto ho = std::make_shared<HitboxObserver>(player, "DashingStateHurtbox");
     hoc->hitboxObservers.push_back(ho);
-    player->getHitboxManager()->addHitboxObserver(ho);
+    player->getSharedComponent<HitboxManager>()->addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
 
     // create hitboxes
     auto hc = std::make_unique<HitboxCollection>();
     auto hb = std::make_shared<Hitbox>(player, 1, glm::vec2(0, 0), "DashingStateHitbox");
     hc->hitboxes.push_back(hb);
-    player->getHitboxManager()->addHitbox(hb);
+    player->getSharedComponent<HitboxManager>()->addHitbox(hb);
     setHitboxCollection(std::move(hc));
 }
 
 void DashingState::deleteBoxes() {
     // delete hitbox observers
     for (auto& ho : getHitboxObserverCollection()->hitboxObservers) {
-        player->getHitboxManager()->removeHitboxObserver(ho);
+        player->getSharedComponent<HitboxManager>()->removeHitboxObserver(ho);
     }
     setHitboxObserverCollection(nullptr);
 
     // delete hitboxes
     for (auto& hb : getHitboxCollection()->hitboxes) {
-        player->getHitboxManager()->removeHitbox(hb);
+        player->getSharedComponent<HitboxManager>()->removeHitbox(hb);
     }   
     setHitboxCollection(nullptr);
 }
 
 void DashingState::updateBoxes() {
     for (auto& ho : getHitboxObserverCollection()->hitboxObservers) {
-        ho->getEntity()->setPosition(player->getPhysics().getPosition());
+        ho->getEntity()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
     }
 
     for (auto& hb : getHitboxCollection()->hitboxes) {
-        hb->getEntity()->setPosition(player->getPhysics().getPosition());
+        hb->getEntity()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
     }
 
     for (auto& hb : getHitboxCollection()->hitboxes) {

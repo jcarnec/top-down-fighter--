@@ -14,9 +14,9 @@ const float targetFrameTime = 1.0f / static_cast<float>(targetFPS);
 int RESOLUTIONX = 500;
 int RESOLUTIONY = 500;
 
-std::shared_ptr<HitboxManager> hitboxManager = std::make_shared<HitboxManager>();
-Player player(glm::vec2((RESOLUTIONX / 4) * 2, (RESOLUTIONX / 4) * 1), Shape(), hitboxManager);
-Player player2(glm::vec2((RESOLUTIONX / 4) * 3, (RESOLUTIONX / 4) * 2), Shape(), hitboxManager);
+std::shared_ptr<HitboxManager> mainHitboxManager = std::make_shared<HitboxManager>();
+Player player(glm::vec2((RESOLUTIONX / 4) * 2, (RESOLUTIONX / 4) * 1), Shape(), mainHitboxManager);
+Player player2(glm::vec2((RESOLUTIONX / 4) * 3, (RESOLUTIONX / 4) * 2), Shape(), mainHitboxManager);
 
 // Timing variables
 std::chrono::high_resolution_clock::time_point prevFrameTime;
@@ -43,7 +43,7 @@ void display() {
 
     player.draw();
     player2.draw();
-    hitboxManager->draw();
+    mainHitboxManager->draw();
 
     glutSwapBuffers();
 }

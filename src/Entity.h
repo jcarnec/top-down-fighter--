@@ -1,14 +1,21 @@
-#ifndef ENTITY_H
-#define ENTITY_H
-
-#include "Shape.h"
-#include <string>
-#include <glm/vec2.hpp>
+#pragma once
+#include <unordered_map>
 #include <memory>
+#include <typeindex>
 #include <iostream>
+#include "Shape.h"
+#include "SingleComponent.h"
+#include "SharedComponent.h"
 
+
+/**
+ * @class Entity
+ * @brief Represents a game entity that can hold multiple components.
+ */
 class Entity {
 public:
+
+
     Entity(glm::vec2 position, Shape shape) {
         setPosition(position);
         setShape(shape);
@@ -29,10 +36,45 @@ public:
     std::string getId() const { return id; }
     void setId(std::string id) { this->id = id; }
 
-protected:
     glm::vec2 position;
     Shape shape;
     std::string id = "default";
-};
 
-#endif // ENTITY_H
+    // Add a component to the entity
+    template <typename T, typename... Args>
+    T& addComponent(Args&&... args) {
+        std::unique_ptr<T> component = std::make_unique<T>(*this, std::forward<Args>(args)...);
+        T& ref = *component;
+        components[std::type_index(typeid(T))] = std::move(component);
+        return ref;
+    }
+
+    // Retrieve a component of a given type
+    template <typename T>
+    T* getComponent() {
+        auto it = components.find(std::type_index(typeid(T)));
+        return (it != components.end()) ? static_cast<T*>(it->second.get()) : nullptr;
+    }
+
+
+    // Add a shared component to the entity
+    template <typename T>
+    void addSharedComponent(std::shared_ptr<T> component) {
+        static_assert(std::is_base_of<SharedComponent, T>::value, "T must derive from Component");
+        component->addOwner(*this);
+        sharedComponents[std::type_index(typeid(T))] = component;
+    }
+
+    // Retrieve a shared component of a given type
+    template <typename T>
+    std::shared_ptr<T> getSharedComponent() {
+        auto it = sharedComponents.find(std::type_index(typeid(T)));
+        return (it != sharedComponents.end()) ? std::static_pointer_cast<T>(it->second) : nullptr;
+    }
+
+private:
+
+
+    std::unordered_map<std::type_index, std::shared_ptr<SingleComponent>> components; // Store components by their type
+    std::unordered_map<std::type_index, std::shared_ptr<SharedComponent>> sharedComponents;
+};

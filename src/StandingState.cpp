@@ -1,6 +1,6 @@
 #include "State.h"
 #include "Player.h"
-
+#include "HitboxManager.h"
 
 void StandingState::update() {
     // update position of hitbox observers to current player position
@@ -62,7 +62,7 @@ void StandingState::createBoxes() {
     auto hoc = std::make_unique<HitboxObserverCollection>();
     auto ho = std::make_shared<HitboxObserver>(player, "StandingStateHurtbox");
     hoc->hitboxObservers.push_back(ho);
-    player->getHitboxManager()->addHitboxObserver(ho);
+    player->getSharedComponent<HitboxManager>()->addHitboxObserver(ho);
     setHitboxObserverCollection(std::move(hoc));
 }
 
@@ -72,7 +72,7 @@ void StandingState::deleteBoxes() {
     // Delete hitbox observers
     for (auto& ho : hoc->hitboxObservers) {
         // Remove hitbox observer
-        player->getHitboxManager()->removeHitboxObserver(ho);
+        player->getSharedComponent<HitboxManager>()->removeHitboxObserver(ho);
     }
     setHitboxObserverCollection(nullptr);
 }
@@ -81,6 +81,6 @@ void StandingState::updateBoxes() {
     // Get the hitbox observer collection
     auto hoc = getHitboxObserverCollection();
     for (auto& ho : hoc->hitboxObservers) {
-        ho->getEntity()->setPosition(player->getPhysics().getPosition());
+        ho->getEntity()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
     }
 }

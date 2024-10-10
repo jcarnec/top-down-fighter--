@@ -9,19 +9,20 @@
 #include <vector>
 #include <memory>
 #include "Hitbox.h"
+#include "SharedComponent.h"
 
 /**
  * @brief A class that manages hitboxes and hitbox observers
  */
-class HitboxManager
-{
+class HitboxManager : public SharedComponent {
 
 public:
+
+    HitboxManager() : SharedComponent() {}
 
     // display function that displays all hitboxes as red circles and hitbox observers as yellow circles
     void draw() const
     {
-
 
         for (auto &hitbox : hitboxes)
         {
