@@ -3,4 +3,4 @@ obj/DashingState.o: src/DashingState.cpp src/State.h \
  src/Observer.h src/Shape.h src/Entity.h src/SingleComponent.h \
  src/SharedComponent.h src/HitboxObserverCollection.h src/StateMachine.h \
  src/Player.h src/BasicPhysicsComponent.h src/PhysicsComponent.h \
- src/InputHandler.h src/HitboxManager.h
+ src/InputHandler.h src/HitboxManager.h src/HitResolver.h

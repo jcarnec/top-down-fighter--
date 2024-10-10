@@ -113,11 +113,11 @@ void DashingState::deleteBoxes() {
 
 void DashingState::updateBoxes() {
     for (auto& ho : getHitboxObserverCollection()->hitboxObservers) {
-        ho->getEntity()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
+        ho->getOwner()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
     }
 
     for (auto& hb : getHitboxCollection()->hitboxes) {
-        hb->getEntity()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
+        hb->getOwner()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
     }
 
     for (auto& hb : getHitboxCollection()->hitboxes) {

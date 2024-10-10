@@ -8,7 +8,7 @@
 
 
 // Player constructor...
-Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hm)
+Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> hm, std::shared_ptr<HitResolver> hr)
     : Entity(position, shape) {
    // Associate commands with keys in the inputMap
 
@@ -16,6 +16,7 @@ Player::Player(glm::vec2 position, Shape shape, std::shared_ptr<HitboxManager> h
         addComponent<StateMachine>();
         addComponent<InputHandler>();
         addSharedComponent<HitboxManager>(hm);
+        addSharedComponent<HitResolver>(hr);
         // Register states with the state machine
         getComponent<StateMachine>()->registerState("STANDING", std::make_unique<StandingState>(this, "STANDING"));
         getComponent<StateMachine>()->registerState("MOVING", std::make_unique<MovingState>(this, "MOVING"));

@@ -22,8 +22,8 @@ class Hitbox : public Subject<HitboxObserver>
 
 public:
   // constructor
-  Hitbox(Entity* entity, int damage, glm::vec2 knockback, std::string hitboxName) : entity(entity), damage(damage), knockback(knockback) {
-    name = entity->getId() + ", " + hitboxName;
+  Hitbox(Entity* owner, int damage, glm::vec2 knockback, std::string hitboxName) : owner(owner), damage(damage), knockback(knockback) {
+    name = owner->getId() + ", " + hitboxName;
   }
 
   // Implement Subject interface
@@ -44,8 +44,8 @@ public:
   void setSize(float size) { this->size = size; }
 
   // Entity
-  Entity* getEntity() { return entity; }
-  void setEntity(Entity* entity) { this->entity = entity; }
+  Entity* getOwner() { return owner; }
+  void setOwner(Entity* owner) { this->owner = owner; }
   
   // Damage
   int getDamage() { return damage; }
@@ -62,7 +62,7 @@ public:
 
   void log() {
     std::ostringstream oss;
-    oss << "(" << entity->getPosition().x << "," << entity->getPosition().y << "), " + name;
+    oss << "(" << owner->getPosition().x << "," << owner->getPosition().y << "), " + name;
     std::cout << oss.str() << std::endl;
   }
 
@@ -73,7 +73,7 @@ public:
 private:
   float size;
   // Shape
-  Entity* entity;
+  Entity* owner;
   // Damage
   int damage;
   // Knockback

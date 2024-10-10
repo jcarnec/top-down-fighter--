@@ -2,22 +2,23 @@
 #include "HitboxObserver.h"
 #include "Hitbox.h"
 #include <iostream>
+#include "BasicPhysicsComponent.h"
 #include <glm/glm.hpp>
 
 
 
 void HitboxObserver::notify(Hitbox *subject)
 {
-    glm::vec2 hitboxPosition = subject->getEntity()->getPosition();
-    glm::vec2 hurtboxPosition = entity->getPosition();
+    glm::vec2 hitboxPosition = subject->getOwner()->getPosition();
+    glm::vec2 hurtboxPosition = owner->getPosition();
 
     // if both hitbox and hurtbox are circles
-    if (subject->getEntity()->getShape().getType() == "SHAPE")
+    if (subject->getOwner()->getShape().getType() == "SHAPE")
     {
 
         // get hitbox and hurtbox shapes
-        const Shape &hitboxShape = subject->getEntity()->getShape();
-        const Shape &hurtboxShape = entity->getShape();
+        const Shape &hitboxShape = subject->getOwner()->getShape();
+        const Shape &hurtboxShape = owner->getShape();
 
         float hitboxRadius = hitboxShape.getRadius();
         float hurtboxRadius = hurtboxShape.getRadius();
@@ -32,5 +33,18 @@ void HitboxObserver::notify(Hitbox *subject)
 
 void HitboxObserver::onGettingHit(Hitbox *hb) {
     std::cout << "I was Hit!" << std::endl;
+
+    BasicPhysicsComponent* selfPhysicsComponent = owner->getComponent<BasicPhysicsComponent>();
+
+    if(selfPhysicsComponent != nullptr) {
+
+
+        // calculate resulting vector
+
+
+    } else {
+        std::cout << "NO PHYSICS IMPLEMENTED" << std::endl; 
+    }
+
     hb->onHitting(*this);
 }

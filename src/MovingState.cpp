@@ -103,6 +103,6 @@ void MovingState::updateBoxes() {
     // Get the hitbox observer collection
     auto hoc = getHitboxObserverCollection();
     for (auto& ho : hoc->hitboxObservers) {
-        ho->getEntity()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
+        ho->getOwner()->setPosition(player->getComponent<BasicPhysicsComponent>()->getPosition());
     }
 }

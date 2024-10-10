@@ -29,19 +29,19 @@ public:
   void notify(Hitbox *subject) override;
 
   // constructor
-  HitboxObserver(Entity* entity, std::string hurtboxName) : entity(entity) {
-    name = entity->getId() + ", " + hurtboxName;
+  HitboxObserver(Entity* owner, std::string hurtboxName) : owner(owner) {
+    name = owner->getId() + ", " + hurtboxName;
   }
 
   // getters and setters
-  Entity* getEntity() { return entity; }
-  void setEntity(Entity* entity) { this->entity = entity; }
+  Entity* getOwner() { return owner; }
+  void setOwner(Entity* owner) { this->owner = owner; }
 
   std::string name;
 
   void log() {
     std::ostringstream oss;
-    oss << "(" << entity->getPosition().x << "," << entity->getPosition().y << "), " << name;
+    oss << "(" << owner->getPosition().x << "," << owner->getPosition().y << "), " << name;
     std::cout << oss.str() << std::endl;
   }
 
@@ -49,5 +49,5 @@ public:
 
 private:
 private:
-  Entity *entity;
+  Entity *owner;
 };

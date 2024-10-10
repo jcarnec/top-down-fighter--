@@ -7,10 +7,11 @@
 #include "SingleComponent.h"
 #include "SharedComponent.h"
 
+// TODO need to remove shape.
 
 /**
  * @class Entity
- * @brief Represents a game entity that can hold multiple components.
+ * @brief Represents a game owner that can hold multiple components.
  */
 class Entity {
 public:
@@ -40,7 +41,7 @@ public:
     Shape shape;
     std::string id = "default";
 
-    // Add a component to the entity
+    // Add a component to the owner
     template <typename T, typename... Args>
     T& addComponent(Args&&... args) {
         std::unique_ptr<T> component = std::make_unique<T>(*this, std::forward<Args>(args)...);
@@ -57,7 +58,7 @@ public:
     }
 
 
-    // Add a shared component to the entity
+    // Add a shared component to the owner
     template <typename T>
     void addSharedComponent(std::shared_ptr<T> component) {
         static_assert(std::is_base_of<SharedComponent, T>::value, "T must derive from Component");

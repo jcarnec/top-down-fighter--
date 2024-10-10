@@ -27,12 +27,12 @@ public:
         for (auto &hitbox : hitboxes)
         {
             // hitbox->log();
-            hitbox->getEntity()->getShape().draw();
+            hitbox->getOwner()->getShape().draw();
         }
         for (auto &hitboxObserver : hitboxObservers)
         {
             // hitboxObserver->log();
-            hitboxObserver->getEntity()->getShape().draw();
+            hitboxObserver->getOwner()->getShape().draw();
         }
     }
 
@@ -87,6 +87,6 @@ private:
     bool checkHitboxInteraction(std::shared_ptr<Hitbox> hitbox, std::shared_ptr<HitboxObserver> hitboxObserver)
     {
         // Check if hitbox and hitbox observer are from the same player
-        return (hitbox->getEntity()->getId() != hitboxObserver->getEntity()->getId());
+        return (hitbox->getOwner()->getId() != hitboxObserver->getOwner()->getId());
     }
 };
