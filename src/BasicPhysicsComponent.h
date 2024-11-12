@@ -10,6 +10,9 @@ class BasicPhysicsComponent : public PhysicsComponent {
 public:
     BasicPhysicsComponent(Entity& owner) : PhysicsComponent(owner) {};
 
+    void setMass(float _mass) {mass = _mass;};
+    float getMass() {mass = _mass;};
+
     // Internal
     void setVelocity(const glm::vec2& newVelocity) { velocity = newVelocity; }
     glm::vec2 getVelocity() const { return velocity; }
@@ -84,5 +87,8 @@ public:
         applyEVelocity();
 
     }
+
+    private:
+    float mass = 10;
 
 };
